@@ -1,0 +1,11 @@
+.home {
+    display: flex;
+    height: 80vh;
+    justify-content: flex-end;
+    gap: 40px;
+}
+.but {
+    display: flex;
+    align-items: center;
+    width: 500px;
+}
