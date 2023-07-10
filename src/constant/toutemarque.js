@@ -11,7 +11,7 @@ import ultra from "../assets/s21.jpeg"
 import ultra2 from "../assets/S22.jpeg"
 export const MesSmartphones = [
     { //////////////
-      id: 1,
+      id: "1",
       image: Xi,
       buttonText: "Nos Produits Xiaomi",
       produits:[
@@ -37,7 +37,7 @@ export const MesSmartphones = [
       ]
     }, //////////////
     { //////////////////
-      id: 2,
+      id: "2",
       image: App,
       buttonText: "Nos Produits Apple",
       produits:[
@@ -65,7 +65,7 @@ export const MesSmartphones = [
     },
     ///////////////////
     {
-      id: 3,
+      id: "3",
       image: Sam,
       buttonText: "Nos Produits Samsung",
       produits:[
@@ -93,7 +93,7 @@ export const MesSmartphones = [
     },
     ////////////////////
     {
-      id: 4,
+      id: "4",
       image: Rea,
       buttonText: "Nos Produits Realme",
       produits:[
@@ -111,7 +111,7 @@ export const MesSmartphones = [
     },
     /////////////////////
     {
-      id: 5,
+      id: "5",
       image: Opp,
       buttonText: "Nos Produits Oppo",
       produits: [

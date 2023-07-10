@@ -14,7 +14,7 @@ function SignIn() {
           email,
           password,
         },
-      });
+      }); // fin de requete get
       if (response.data.exists) {
         navigate('/Products') // Products seulement mot clé aprés http://localhost:5173/ qui il dérige vers componenets Nproducts.jsx
       }

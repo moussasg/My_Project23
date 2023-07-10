@@ -1,50 +1,53 @@
 import React, { useState } from "react";
-import classes from "./index.module.css";
-import { useParams } from "react-router-dom";
+import classes from "./index.module.css" ;
+import { useParams } from "react-router-dom" ;
 import { MesSmartphones } from "../../constant/toutemarque";
+import { useRef } from "react";
 import Pan from "./pan.jpeg"
 function Card() {
   const { id } = useParams();
-  const FindId = MesSmartphones.find((el) => el.id.toString() === id);
+  const FindId = MesSmartphones.find((el) => el.id === id);
   const [selectram, setselectram] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [selectgb, setselectgb] = useState("");
-  const [panier, setpanier] = useState([]);
-  const [quantité, setquantité] = useState({});
-  const [prix, setprix] = useState(0);
-
-  const moins = (productName) => {
-    setquantité((prevQuantité) => {
-      const updatedQuantité = { ...prevQuantité };
-      if (updatedQuantité[productName] > 1) {
-        updatedQuantité[productName] -= 1;
-      } else {
-        updatedQuantité[productName] = 1;
+  const [panier, setpanier] = useState([]); // panier yetruna Yta yetmonta 
+  const [quantité, setquantité] = useState({}); // quantité initialisé avec objets vide elle peut contenir plusieurs propriété avec ces valeurs
+  const [prix, setprix] = useState(0); // prix c total
+  const ref = useRef(null);
+  const moins = (produit) => { // diminuer quantité
+    setquantité( (el) => { 
+      const updatedQuantité = { ...el }; // je return updatedQuantité => les ancien quantité ; meme dans plus
+      if (updatedQuantité[produit] > 1) { 
+        updatedQuantité[produit] --; // updatedQuantité[produit] = -1 
+      } else { // updatedQuantité[produit] < 1
+        updatedQuantité[produit] = 1;
+      } // ila kane = 1 khelih kima rah matzidche tna9asse
+      return updatedQuantité;
+    }
+    ); //fin de setquantité
+  };
+  const plus = (produit) => { // augmenter quantité
+    setquantité( (el) => {
+      const updatedQuantité = { ...el }; // les ancien quantité
+      if (updatedQuantité[produit]) {
+        updatedQuantité[produit] ++;// updatedQuantité[produit] = + 1
+      } else { // ila makache updati !updatedQuantité[produit] 
+        updatedQuantité[produit] = 1; /// khelih wa7ed
       }
       return updatedQuantité;
-    });
+    });//fin de setquantité
   };
-
-  const plus = (productName) => {
-    setquantité((prevQuantité) => {
-      const updatedQuantité = { ...prevQuantité };
-      if (updatedQuantité[productName]) {
-        updatedQuantité[productName] += 1;
-      } else {
-        updatedQuantité[productName] = 1;
-      }
-      return updatedQuantité;
-    });
-  };
-
-  const addToCart = (product) => {
-    const updatedPanier = [...panier, product];
-    setpanier(updatedPanier);
-    const updatedTotalPrice = prix + product.prix * (quantité[product.nom] || 1);
-    setprix(updatedTotalPrice);
-  };
-
-  const renderSmartphones = () => {
+  ///// ... = spread
+  const addToCart = (xi) => { // button : ajouté au panier
+  const updatedPanier = [...panier, xi]; // ancien panier nzidxiha xi au élément existnat
+  setpanier(updatedPanier);  // panier-jdide ywxii updatedPanier // quantité[xi.nom] =quantité de nom de produit selectionné
+  const updatedTotalPrice = prix + xi.prix * (quantité[xi.nom] || 1); // prix = ancienc prix des produits + le nouv 
+  setprix(updatedTotalPrice);// (quantité[el.nom] === quantité de nom de el / product.prix prix d'un produit specifique
+  confirm(xi.nom + ' ' + 'ajouté avec succés')
+  ref.current?.scrollIntoView({behavior: 'smooth'}); // ref définitha ua debut nul
+  } // pour scroler vers prix total , j'ai définie h3 ref={ref}
+  /////
+  const renderSmartphones = () => { // on introduit dans renderSmartphones()
     const filteredSmartphones = FindId.produits.filter((el) => {
       if (selectram && selectgb && selectedModel) {
         return el.ram === selectram && el.nom === selectedModel && el.gb === selectgb;
@@ -64,11 +67,9 @@ function Card() {
         return true;
       }
     });
-
     if (filteredSmartphones.length === 0) {
       return <h2>Il n'existe pas de modèle correspondant aux filtres sélectionnés.</h2>;
     }
-
     return (
       <div className={classes.tout}>
         {filteredSmartphones.map((el, i) => (
@@ -80,12 +81,13 @@ function Card() {
               <tbody>
                 <tr>
                   <td>
-                    <h1>{el.nom}</h1>
-                    Quantité: {quantité[el.nom] || 1}
+                    <h1>{el.nom}</h1> 
+                    Quantité: {quantité[el.nom] || 1} {/*|| 1 pour éviter les éreur si yas un probléme sa afiche 1*/}
                     <h3> Prix: {el.prix * (quantité[el.nom] || 1)}</h3>
                     <button onClick={() => plus(el.nom)}>+</button>
                     <button onClick={() => moins(el.nom)}>-</button>
-                    <button onClick={() => addToCart({ nom: el.nom, prix: el.prix })}>
+                    <button onClick={() => addToCart({nom: el.nom , prix: el.prix})}>
+                      {/*nas7a9e nom et prix de produits*/}
                       Ajouter au panier
                     </button>
                   </td>
@@ -111,30 +113,34 @@ function Card() {
         ))}
       </div>
     );
-  };
-
-  const renderPanier = () => {
+  }; /// fin de renderSmartphones
+  const handeldelete = (el) => {
+    const delpanier = panier.filter((xi)=> xi !== el)
+    setpanier(delpanier)
+    const updatedTotalPrice = prix - (el.prix * (quantité[el.nom] || 1))// prix = ancienc prix des produits + le nouv 
+    setprix(updatedTotalPrice)
+  }
+  const renderPanier = () => { // ndiroha f dernier return
     return (
       <div className={classes.panier}>
         <h2>Panier</h2>
         <img src={Pan} alt="ff"></img>
-        {panier.length === 0 ? (
-          <p>Le panier est vide.</p>
-        ) : (
-          <ul>
-            {panier.map((product, index) => (
-            <h1> <li key={index}>
-                {product.nom} - Quantité: {quantité[product.nom] || 1} - Prix: {product.prix * (quantité[product.nom] || 1)}
-              </li>
-              </h1> 
+        {panier.length === 0 ? ( /// if panier.length = 0 psq drtlo tablaux videpanier vide si panier n'est pas vide
+          <p> Le panier est vide. </p> // panier drtelha setpanier dakhel addtocart
+        ) : ( 
+          <ul> {/* si panier n'est pas vide */}
+            {panier.map((xi, el1) => ( // panier jate m setpanier li dakhel addtocart
+            <h1> <li key={el1} className={classes.delete}> {/*si panier n'est pas vide*/}
+                {xi.nom} - Quantité: {quantité[xi.nom] || 1} - Prix: {xi.prix * (quantité[xi.nom] || 1)} -  <button onClick={()=>handeldelete(xi)}>delete</button> {/*xi psq j'ai mapé avec xi*/}
+              </li> {/*|| est utilisé pour fournir une valeur par défaut lorsque la quantité d'un produit n'est pas définie ou est falsy. Cela permet d'éviter les erreurs*/}
+            </h1>
             ))}
           </ul>
         )}
-        <h3>Prix total: {prix}</h3>
-      </div>
+        <h3 ref={ref} className={classes.prixtot}>Prix total: {prix}</h3> {/*prix = total*/}
+      </div> 
     );
-  };
-
+  }; /// fin de render panier
   return (
     <>
       <div className="filtre">
@@ -165,6 +171,6 @@ function Card() {
       {renderPanier()}
     </>
   );
-}
-
+} /// fin de la function Card
 export default Card;
+
