@@ -23,7 +23,8 @@ const userSchema = new mongoose.Schema({
   password: String,
 });
 const User = mongoose.model('User', userSchema);
-/// envoyé email par node.js ; sendMail on l'introduit dans le Post requette
+/// envoyé email par node.js ; sendMail on l'introduit dans le Post requette / receiver ndirohaa dakhel to
+///SMTP : Simple Mail Transfer Protocol : utilisé par les serveurs de messagerie pour transférer les e-mails d'un serveur à un autre.
 const sendMail = (receiver) => { // sendMail on la réutilise  aprés tranporter ndiroha dakhel to
   return new Promise((resolve, reject) => { // resolve en cas de réussite // reject if error
     const transporter = nodemailer.createTransport({
@@ -37,24 +38,52 @@ const sendMail = (receiver) => { // sendMail on la réutilise  aprés tranporter
       from: 'moussaswag5@gmail.com',
       to: receiver,
       subject: 'Registration Hydra smartphones',
-      text: 'Thank you for registration',
+      text: 'Thank you receiverfor registration',
     }, (error, info) => {
       if (error) {
-        reject(error);
+        reject(error); // reject en cas d'érreur
       } else {
-        resolve(info);
+        resolve(info); // resolve en cas de réussite
       }
-    });
+    } );
   } // fin de promise
   );
 };//// fin de sendmail
-/// post un email sur le serveur
-app.post('/send_mail', (req, res) => {
-  sendMail(req.body.receiver)
-    .then((response) => res.send(response.messageId))
-    .catch((error) => res.status(500).send(error.message));
+/// post un email sur le serveur , il faut ajouté fel front pour qu-il marche au sign-up
+const emailSchema = new mongoose.Schema({
+  // Define the properties of your email schema
+  // For example, you might have fields like sender, recipient, subject, content, etc.
+  receiver: String,
 });
-/////
+// Create the EmailModel using the email schema
+const EmailModel = mongoose.model('Email', emailSchema);
+app.post('/sendmail', (req, res) => {
+  const { receiver } = req.body;
+  sendMail(receiver)
+    .then(() => {
+      const newEmail = new EmailModel({ receiver });
+      return newEmail.save();
+    })
+    .then(() => {
+      res.send('Email sent successfully');
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send(error.message);
+    });
+});
+
+// GET route for retrieving emails
+app.get('/sendmail', async (req, res) => {
+  try {
+    const emails = await EmailModel.find();
+    res.json(emails);
+  } catch (error) {
+    console.error('An error occurred while retrieving emails', error);
+    res.status(500).send(error.message);
+  }
+});
+/////   
 app.post('/api/users/', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -67,9 +96,16 @@ app.post('/api/users/', async (req, res) => {
     res.status(500).send(err);
   }
 });
-
 app.get('/api/users/', async (req, res) => {
-  const { email, password } = req.query;
+  try {
+    const users = await User.find(); // Récupérer tous les utilisateurs dans la base de données
+    res.json(users); // Renvoyer les utilisateurs dans la réponse
+  } catch (err) {
+    console.error('Une erreur s\'est produite lors de la récupération des utilisateurs', err);
+    res.status(500).send(err);
+  }
+});
+app.get('/api/users/', async (req, res) => {
   try {
     const existingUser = await User.findOne({ email, password });
     res.json({ exists: existingUser !== null });

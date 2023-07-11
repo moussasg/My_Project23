@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom" ;
 import { MesSmartphones } from "../../constant/toutemarque";
 import { useRef } from "react";
 import Pan from "./pan.jpeg"
+import Delbut from "../matui/delbuton.jsx"
 function Card() {
   const { id } = useParams();
   const FindId = MesSmartphones.find((el) => el.id === id);
@@ -44,7 +45,7 @@ function Card() {
   const updatedTotalPrice = prix + xi.prix * (quantité[xi.nom] || 1); // prix = ancienc prix des produits + le nouv 
   setprix(updatedTotalPrice);// (quantité[el.nom] === quantité de nom de el / product.prix prix d'un produit specifique
   confirm(xi.nom + ' ' + 'ajouté avec succés')
-  ref.current?.scrollIntoView({behavior: 'smooth'}); // ref définitha ua debut nul
+  ref.current?.scrollIntoView({behavior: 'smooth'}); // ref définitha au debut nul
   } // pour scroler vers prix total , j'ai définie h3 ref={ref}
   /////
   const renderSmartphones = () => { // on introduit dans renderSmartphones()
@@ -131,7 +132,9 @@ function Card() {
           <ul> {/* si panier n'est pas vide */}
             {panier.map((xi, el1) => ( // panier jate m setpanier li dakhel addtocart
             <h1> <li key={el1} className={classes.delete}> {/*si panier n'est pas vide*/}
-                {xi.nom} - Quantité: {quantité[xi.nom] || 1} - Prix: {xi.prix * (quantité[xi.nom] || 1)} -  <button onClick={()=>handeldelete(xi)}>delete</button> {/*xi psq j'ai mapé avec xi*/}
+                {xi.nom} - Quantité: {quantité[xi.nom] || 1} - Prix: {xi.prix * (quantité[xi.nom] || 1)} - 
+                  <button onClick={()=>handeldelete(xi)}> <Delbut/> </button> 
+              {/*xi psq j'ai mapé avec xi*/}
               </li> {/*|| est utilisé pour fournir une valeur par défaut lorsque la quantité d'un produit n'est pas définie ou est falsy. Cela permet d'éviter les erreurs*/}
             </h1>
             ))}

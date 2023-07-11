@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+// spa : single page application sans reload ntn9l mn page l page tconverti ajax l json
+/// pour transférer les e-mails d'un serveur à un autre.
 import { useNavigate } from 'react-router-dom';
 const UserForm = () => {
   const navigate = useNavigate(); /// trés trés trés importants
@@ -26,21 +28,29 @@ const UserForm = () => {
         if (response.data.exists) {
           setMessage('User already exists. Please change email and/or password.');
         } else {
-          sendMail(email); // sendmail déclarinaha au dessous
+          sendMail(email); // sendmail déclarinaha au dessous existe aussi dans express.js
           navigate('/Products') 
         }
       })
       .catch((error) => {
         console.log(error);
       });
-    setEmail('');
+    setEmail(''); // ${email}
     setPassword('');
   }; // fin de handelsubmit
-  const sendMail = (receiver) => {
-    axios.post('http://localhost:3002/send_mail', { receiver })
+  const sendMail = (receiver) => { // receiver conue a intérieur de sendmail au back-end dans 'to' : '' nodemailer dertelha  post f express
+    axios.post('http://localhost:3002/sendmail', { receiver })
       .then(() => {
         setMessage('Thank you for your registration');
-        alert('Thank you for your registration');
+        alert('Thank you  for your registration');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      axios.get('http://localhost:3002/sendmail', { receiver })
+      .then(() => {
+        setMessage('Thank you for your registration');
+        alert('Thank you  for your registration');
       })
       .catch((error) => {
         console.log(error);
