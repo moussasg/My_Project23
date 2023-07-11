@@ -16,25 +16,27 @@ const UserForm = () => {
       setPassword(value);
     }
   };
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => { // async trés trés important
     event.preventDefault();
-    axios.get('http://localhost:3002/api/users/', {
-      params: {
-        email,
-        password,
-      },
-    })
-      .then((response) => {
-        if (response.data.exists) {
-          setMessage('User already exists. Please change email and/or password.');
-        } else {
-          sendMail(email); // sendmail déclarinaha au dessous existe aussi dans express.js
-          navigate('/Products') 
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try { // 1/try{} , 2/catch(error){}
+      const response = await axios.get('http://localhost:3002/api/users/', { // get psq signin , nvérifi si'il existe
+        params:{ // params fixe prédifinie de react  je vais essayer de les mettre aprés virgule au dessus
+          email,
+          password,
+        },
+      }); // fin de requete gette
+      if (response.data.exists) {
+        setMessage("user déjas inscrit dans database , change email ou password");
+      }
+      else { // si user n'existe pas 
+        sendMail(email)/// jenvoi mail par node
+        navigate('/Products') // inscription réussite aller vers produits
+      }
+    } // fin de try
+     catch (error) {
+      console.error("Une erreur s'est produite lors de la vérification de l'utilisateur", error);
+      setMessage("Erreur lors de la vérification de l'utilisateur");
+    }
     setEmail(''); // ${email}
     setPassword('');
   }; // fin de handelsubmit
@@ -42,7 +44,6 @@ const UserForm = () => {
     axios.post('http://localhost:3002/sendmail', { receiver })
       .then(() => {
         setMessage('Thank you for your registration');
-        alert('Thank you  for your registration');
       })
       .catch((error) => {
         console.log(error);
@@ -50,7 +51,6 @@ const UserForm = () => {
       axios.get('http://localhost:3002/sendmail', { receiver })
       .then(() => {
         setMessage('Thank you for your registration');
-        alert('Thank you  for your registration');
       })
       .catch((error) => {
         console.log(error);
