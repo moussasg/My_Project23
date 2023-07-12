@@ -13,6 +13,14 @@
     display: flex;
     flex-direction: row-reverse;
   }
+  .plusmoinsajout {
+    display: flex;
+    justify-content: center;
+  }
+  .del {
+    display: flex;
+    justify-content: center;
+  }
   .prixtot {
     background-color: red;
   }

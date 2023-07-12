@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom" ;
 import { MesSmartphones } from "../../constant/toutemarque";
 import { useRef } from "react";
 import Pan from "./pan.jpeg"
+import Ajoutpan from "../matui/ajoutpa"
+import Addicon from "../matui/addicon";
 import Delbut from "../matui/delbuton.jsx"
 function Card() {
   const { id } = useParams();
@@ -85,12 +87,14 @@ function Card() {
                     <h1>{el.nom}</h1> 
                     Quantité: {quantité[el.nom] || 1} {/*|| 1 pour éviter les éreur si yas un probléme sa afiche 1*/}
                     <h3> Prix: {el.prix * (quantité[el.nom] || 1)}</h3>
-                    <button onClick={() => plus(el.nom)}>+</button>
-                    <button onClick={() => moins(el.nom)}>-</button>
-                    <button onClick={() => addToCart({nom: el.nom , prix: el.prix})}>
+                    <div className={classes.plusmoinsajout}>
+                    <div onClick={() => plus(el.nom)}> <Addicon/> </div>
+                    <div onClick={() => moins(el.nom)}> <button>- </button></div>
+                    <div onClick={() => addToCart({nom: el.nom , prix: el.prix})}>
                       {/*nas7a9e nom et prix de produits*/}
-                      Ajouter au panier
-                    </button>
+                      <Ajoutpan/>
+                    </div>
+                    </div>
                   </td>
                 </tr>
                 <tr>
@@ -132,8 +136,10 @@ function Card() {
           <ul> {/* si panier n'est pas vide */}
             {panier.map((xi, el1) => ( // panier jate m setpanier li dakhel addtocart
             <h1> <li key={el1} className={classes.delete}> {/*si panier n'est pas vide*/}
+            <div className={classes.del}>
                 {xi.nom} - Quantité: {quantité[xi.nom] || 1} - Prix: {xi.prix * (quantité[xi.nom] || 1)} - 
-                  <button onClick={()=>handeldelete(xi)}> <Delbut/> </button> 
+                  <div onClick={()=>handeldelete(xi)}> <Delbut/> </div> 
+                  </div>
               {/*xi psq j'ai mapé avec xi*/}
               </li> {/*|| est utilisé pour fournir une valeur par défaut lorsque la quantité d'un produit n'est pas définie ou est falsy. Cela permet d'éviter les erreurs*/}
             </h1>

@@ -45,8 +45,8 @@ h1 {
 .card {
   padding: 2em;
 }
-body {
-  background-color: yellow;
+.tik {
+  background-color: red;
 }
 .res {
   background-color: rgb(243, 239, 240);
@@ -54,7 +54,5 @@ body {
   gap: 20px;
   justify-content: space-evenly;
 }
-.cont {
-  background-color: yellow;
-}
+
 

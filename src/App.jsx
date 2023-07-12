@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useEffect} from 'react';
 import './App.css';
 import { MesSmartphones } from './constant/toutemarque'; // constante de tout mon magasin
 import Signup from "./pages/signup/signup"
@@ -13,6 +13,8 @@ import Prod from './components/matui/prod';
 import Hom from "./components/matui/home"
 import Location from './components/matui/location';
 import Fb from './components/matui/fb';
+import Insta from './components/matui/insta';
+import Tik from "./assets/tik.jpg"
 import logohydra from '../src/assets/hydra smartphones.jpg';
 function App() {
   return (
@@ -22,8 +24,8 @@ function App() {
           <h4> Contacté Nous sur : </h4>
         </div>
         <a href='https://m.facebook.com/moussa.souag'>facebook <Fb /></a>
-        <a href='https://instagram.com/hydra_smartphones?igshid=NTc4MTIwNjQ2YQ=='> instagram</a>
-        <a href='https://www.tiktok.com/@hydra_smartphones'> tiktok</a>
+        <a href='https://instagram.com/hydra_smartphones?igshid=NTc4MTIwNjQ2YQ=='> instagram <Insta/> </a>
+        <a href='https://www.tiktok.com/@hydra_smartphones'> <img className='tik' src={Tik}/> tiktok</a>
       </div>
       <nav className="nav">
         <Link to="/">Home <Hom /> </Link>
@@ -49,4 +51,5 @@ function App() {
     </>
   )
 }
-export default App;
+console.log('1' === 1) // == compare le contenue brk / === compare le contenue w type data
+export default App

@@ -3,7 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete'; // material ui : ui compnen
 export default function Delbut() {
   return (
     <div>
-        <DeleteIcon/>
+        <DeleteIcon sx={{fontSize: 40}}/>
     </div>
   )
 }
