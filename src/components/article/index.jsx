@@ -138,7 +138,7 @@ function Card() {
             <h1> <li key={el1} className={classes.delete}> {/*si panier n'est pas vide*/}
             <div className={classes.del}>
                 {xi.nom} - Quantité: {quantité[xi.nom] || 1} - Prix: {xi.prix * (quantité[xi.nom] || 1)} - 
-                  <div onClick={()=>handeldelete(xi)}> <Delbut/> </div> 
+                  <div onClick={()=>handeldelete(xi)}>  <Delbut/> </div> 
                   </div>
               {/*xi psq j'ai mapé avec xi*/}
               </li> {/*|| est utilisé pour fournir une valeur par défaut lorsque la quantité d'un produit n'est pas définie ou est falsy. Cela permet d'éviter les erreurs*/}

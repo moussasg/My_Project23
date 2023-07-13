@@ -48,7 +48,7 @@ const UserForm = () => {
       .catch((error) => {
         console.log(error);
       });
-      axios.get('http://localhost:3002/sendmail', { receiver })
+      axios.get('http://localhost:3002/sendmail', { receiver }) // get pour all ou spécifique il suffit dire w7d et fel back dire all w7do
       .then(() => {
         setMessage('Thank you for your registration');
       })

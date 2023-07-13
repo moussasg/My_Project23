@@ -1,4 +1,8 @@
-import React , {useEffect} from 'react';
+import React , {useEffect} from 'react'; // useEffect hook du gestion d'effect dans react 
+//useEffect( callback , [dependencies] );
+// callback : fonction:  bloc de code réutilisable  exécutée 'après chaque rendu' du composant.
+// dependencies : [tableau] contenant 'les valeurs qui déterminent si l'effet' doit être exécuté à nouveau. Si une valeur dans le tableau change entre les rendus, l'effet sera déclenché à nouveau. Si dependencies est vide, 
+//l'effet sera exécuté une seule fois après le premier rendu. ya plusieurs utilisations
 import './App.css';
 import { MesSmartphones } from './constant/toutemarque'; // constante de tout mon magasin
 import Signup from "./pages/signup/signup"
@@ -9,13 +13,12 @@ import Products from './pages/store/nproducts';
 import Card from './components/article/index';
 import Sign from './components/matui/sig';
 import Register from './components/matui/register';
-import Prod from './components/matui/prod';
+import Prod from './components/matui/prod';      
 import Hom from "./components/matui/home"
 import Location from './components/matui/location';
 import Fb from './components/matui/fb';
 import Insta from './components/matui/insta';
 import Tik from "./assets/tik.jpg"
-import logohydra from '../src/assets/hydra smartphones.jpg';
 function App() {
   return (
     <>
@@ -51,5 +54,14 @@ function App() {
     </>
   )
 }
-console.log('1' === 1) // == compare le contenue brk / === compare le contenue w type data
+/* console.log('1' === 1) // == compare le contenue brk / === compare le contenue w type 
+/////////
+var x = 5; variable peut réafécté
+x = 10;
+console.log(x); // Affiche 10
+//////////
+const y = 5; constante peut pas réafécté
+y = 10; // Erreur : impossible de réaffecter une constante 
+console.log(y);
+*/ 
 export default App

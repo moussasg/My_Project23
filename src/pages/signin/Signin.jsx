@@ -10,7 +10,7 @@ function SignIn() {
     event.preventDefault();
     try {
       const response = await axios.get('http://localhost:3002/api/users/', {
-        params: {
+        params: { // get w7d aprés fel front aprés fel back-end dire users/all 
           email,
           password,
         },
