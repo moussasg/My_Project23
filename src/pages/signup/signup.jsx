@@ -3,6 +3,7 @@ import axios from 'axios';
 // spa : single page application sans reload ntn9l mn page l page tconverti ajax l json
 /// pour transférer les e-mails d'un serveur à un autre.
 import { useNavigate } from 'react-router-dom';
+import { Alarm } from '@mui/icons-material';
 const UserForm = () => {
   const navigate = useNavigate(); /// trés trés trés importants
   const [email, setEmail] = useState('');
@@ -29,6 +30,8 @@ const UserForm = () => {
         setMessage("user déjas inscrit dans database , change email ou password");
       }
       else { // si user n'existe pas 
+        await axios.post('http://localhost:3002/api/users/ ', {email , password})
+        console.log('user insert in db')
         sendMail(email)/// jenvoi mail par node
         navigate('/Products') // inscription réussite aller vers produits
       }

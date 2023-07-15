@@ -13,6 +13,11 @@
     display: flex;
     flex-direction: row-reverse;
   }
+  .ach {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .plusmoinsajout {
     display: flex;
     justify-content: center;

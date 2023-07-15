@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";// bibliothèque AJAX 
 import classes from "./index.module.css" ;
 import { useParams } from "react-router-dom" ;
 import { MesSmartphones } from "../../constant/toutemarque";
@@ -41,14 +42,15 @@ function Card() {
     });//fin de setquantité
   };
   ///// ... = spread
-  const addToCart = (xi) => { // button : ajouté au panier
-  const updatedPanier = [...panier, xi]; // ancien panier nzidxiha xi au élément existnat
-  setpanier(updatedPanier);  // panier-jdide ywxii updatedPanier // quantité[xi.nom] =quantité de nom de produit selectionné
-  const updatedTotalPrice = prix + xi.prix * (quantité[xi.nom] || 1); // prix = ancienc prix des produits + le nouv 
-  setprix(updatedTotalPrice);// (quantité[el.nom] === quantité de nom de el / product.prix prix d'un produit specifique
-  confirm(xi.nom + ' ' + 'ajouté avec succés')
-  ref.current?.scrollIntoView({behavior: 'smooth'}); // ref définitha au debut nul
-  } // pour scroler vers prix total , j'ai définie h3 ref={ref}
+  const addToCart = (xi) => {
+    const updatedPanier = [...panier, { ...xi, quantité: quantité[xi.nom] || 1 }];// si j'ajoute pas quantité: {quantité[xi.nom] || 1} je peut pas extraire quantité la quantité de  nouvaux prix total et l'envoyé au backend !!!!!!!!
+    setpanier(updatedPanier);
+    const updatedTotalPrice = prix + xi.prix * (quantité[xi.nom] || 1);
+    setprix(updatedTotalPrice);
+    confirm(xi.nom + ' ' + 'ajouté avec succès');
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+  // pour scroler vers prix total , j'ai définie h3 ref={ref}
   /////
   const renderSmartphones = () => { // on introduit dans renderSmartphones()
     const filteredSmartphones = FindId.produits.filter((el) => {
@@ -125,6 +127,15 @@ function Card() {
     const updatedTotalPrice = prix - (el.prix * (quantité[el.nom] || 1))// prix = ancienc prix des produits + le nouv 
     setprix(updatedTotalPrice)
   }
+  const confirma =  async (quantité,nom )  => {
+    try {
+    const response = await axios.post('http://localhost:3002/comands' ,{ quantité, nom } )
+    console.log(response)
+    console.log(`quantité: ${quantité}, nom: ${nom} ajouté au db`)
+    }
+    catch(error){
+    console.log(error);
+    }}
   const renderPanier = () => { // ndiroha f dernier return
     return (
       <div className={classes.panier}>
@@ -138,8 +149,16 @@ function Card() {
             <h1> <li key={el1} className={classes.delete}> {/*si panier n'est pas vide*/}
             <div className={classes.del}>
                 {xi.nom} - Quantité: {quantité[xi.nom] || 1} - Prix: {xi.prix * (quantité[xi.nom] || 1)} - 
-                  <div onClick={()=>handeldelete(xi)}>  <Delbut/> </div> 
+                  <div onClick={()=>handeldelete(xi)}> <Delbut/> 
+                  <div className={classes.ach}>
+                  </div>  
                   </div>
+                  {panier.map((tic,tic1) => (
+          <div key={tic1}>
+      <button onClick={() =>confirma(tic.quantité, tic.nom)}>Acheté</button>
+      </div>
+        ))}
+          </div>
               {/*xi psq j'ai mapé avec xi*/}
               </li> {/*|| est utilisé pour fournir une valeur par défaut lorsque la quantité d'un produit n'est pas définie ou est falsy. Cela permet d'éviter les erreurs*/}
             </h1>
