@@ -161,7 +161,7 @@ function Card() {
           </div>
               {/*xi psq j'ai mapé avec xi*/}
               </li> {/*|| est utilisé pour fournir une valeur par défaut lorsque la quantité d'un produit n'est pas définie ou est falsy. Cela permet d'éviter les erreurs*/}
-            </h1>
+            </h1> 
             ))}
           </ul>
         )}

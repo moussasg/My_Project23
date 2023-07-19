@@ -4,6 +4,10 @@
   padding: 2rem;
   text-align: center;
 }
+:root {
+  --background-color: #fff; /* Couleur de fond par défaut */
+  --text-color: #333; /* Couleur du texte par défaut */
+}
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -49,10 +53,15 @@ h1 {
   background-color: red;
 }
 .res {
-  background-color: rgb(243, 239, 240);
   display: flex;
   gap: 20px;
   justify-content: space-evenly;
+}
+.cont {
+  display: flex;
+  align-items: center;
+    justify-content: space-evenly;
+  gap: 20px;
 }
 
 

@@ -1,4 +1,4 @@
-import React , {useEffect} from 'react'; // useEffect hook du gestion d'effect dans react 
+import React , {useState} from 'react'; // useEffect hook du gestion d'effect dans react 
 //useEffect( callback , [dependencies] );
 // callback : fonction:  bloc de code réutilisable  exécutée 'après chaque rendu' du composant.
 // dependencies : [tableau] contenant 'les valeurs qui déterminent si l'effet' doit être exécuté à nouveau. Si une valeur dans le tableau change entre les rendus, l'effet sera déclenché à nouveau. Si dependencies est vide, 
@@ -20,21 +20,37 @@ import Fb from './components/matui/fb';
 import Insta from './components/matui/insta';
 import Tik from "./assets/tik.jpg"
 function App() {
-  return (
-    <>
-      <div className='res'>
+  const darkModeStyles = {
+    backgroundColor: '#333',
+    color: '#fff' ,
+    // Ajoutez d'autres styles spécifiques au mode sombre ici
+  };
+  const normalStyles = {
+    backgroundColor: '#fff',
+    color: '#333',
+    // Ajoutez d'autres styles spécifiques au mode normal ici
+  };
+  const [darkMode, setDarkMode] = useState(false); // darMode tkon false
+  const handeldark = () => { // ki tecliki 3la handelmark tweli true
+    setDarkMode(!darkMode)
+  }
+    return ( // darkMode tkone false
+    <>  {/* if style = darkmode redha ==> darkModeStyles si non dirli normalStyles*/}
+        <div className="App" style={darkMode ? darkModeStyles  : normalStyles}>
         <div className='cont'>
-          <h4> Contacté Nous sur : </h4>
+          <div className='res'>
+          <h4 style={{Color:"black"}}>  Contacté Nous sur : </h4>
         </div>
         <a href='https://m.facebook.com/moussa.souag'>facebook <Fb /></a>
         <a href='https://instagram.com/hydra_smartphones?igshid=NTc4MTIwNjQ2YQ=='> instagram <Insta/> </a>
         <a href='https://www.tiktok.com/@hydra_smartphones'> <img className='tik' src={Tik}/> tiktok</a>
-      </div>
+        </div>
       <nav className="nav">
         <Link to="/">Home <Hom /> </Link>
         <Link to="/Products">Products <Prod /> </Link>
         <Link to="/Signin">Sign in <Sign /> </Link>
         <Link to="/Signup"> Sign Up <Register /> </Link>
+        <button onClick={handeldark}> Dark Mode</button>
       </nav>
       <Routes>
         <Route path='/Signup' element={<Signup />} />
@@ -51,9 +67,11 @@ function App() {
           allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
       <h4> - - -  All rights reserved - - -  </h4>
+      </div>
     </>
   )
 }
+console.log("im \"moussa\" ")
 /* console.log('1' === 1) // == compare le contenue brk / === compare le contenue w type 
 /////////
 var x = 5; variable peut réafécté
