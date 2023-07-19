@@ -2,7 +2,7 @@ import Opp from "../assets/opp.jpg" // les images
 import App from "../assets/apple.png"
 import Rea from "../assets/rea.png"
 import Xi from "../assets/xi.png" // xiaomi
-import Sam from "../assets/sam.png" // samsung
+import Sam from "../assets/sam.jpg" // samsung
 import huita from "../assets/8a.png" // 
 import neufa from "../assets/9a.jpg"
 import treize from "../assets/13.jpeg"
