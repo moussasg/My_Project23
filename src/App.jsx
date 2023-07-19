@@ -66,7 +66,7 @@ function App() {
           width="800" height="150" style={{ border: "0" }}
           allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
-      <h4> - - -  All rights reserved - - -  </h4>
+      <h4> - -   All rights reserved  - -  </h4>
       </div>
     </>
   )
