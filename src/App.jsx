@@ -6,6 +6,7 @@ import React , {useState} from 'react'; // useEffect hook du gestion d'effect da
 import './App.css';
 import { MesSmartphones } from './constant/toutemarque'; // constante de tout mon magasin
 import Signup from "./pages/signup/signup"
+import Follow from './components/matui/follow';
 import Signin from './pages/signin/Signin';
 import Home from './pages/home/home';
 import { Link, Route, Routes } from 'react-router-dom';
@@ -19,6 +20,7 @@ import Location from './components/matui/location';
 import Fb from './components/matui/fb';
 import Insta from './components/matui/insta';
 import Tik from "./assets/tik.jpg"
+import Darker from './components/matui/darker';
 function App() {
   const darkModeStyles = {
     backgroundColor: '#333',
@@ -39,7 +41,7 @@ function App() {
         <div className="App" style={darkMode ? darkModeStyles  : normalStyles}>
         <div className='cont'>
           <div className='res'>
-          <h4 style={{Color:"black"}}>  Contacté Nous sur : </h4>
+          <h4 style={{Color:"black"}}> Follow us </h4><Follow/> 
         </div>
         <a href='https://m.facebook.com/moussa.souag'>facebook <Fb /></a>
         <a href='https://instagram.com/hydra_smartphones?igshid=NTc4MTIwNjQ2YQ=='> instagram <Insta/> </a>
@@ -50,7 +52,7 @@ function App() {
         <Link to="/Products">Products <Prod /> </Link>
         <Link to="/Signin">Sign in <Sign /> </Link>
         <Link to="/Signup"> Sign Up <Register /> </Link>
-        <button onClick={handeldark}> Dark Mode</button>
+        <div onClick={handeldark}> <h4>Dark Mode <Darker/></h4> </div>
       </nav>
       <Routes>
         <Route path='/Signup' element={<Signup />} />
