@@ -22,23 +22,23 @@ import Insta from './components/matui/insta';
 import Tik from "./assets/tik.jpg"
 import Darker from './components/matui/darker';
 function App() {
-  const darkModeStyles = {
+  const darkModeStyles = { // on introduit aprés le return on passant par prop
     backgroundColor: '#333',
-    color: '#fff' ,
-    // Ajoutez d'autres styles spécifiques au mode sombre ici
+    color: '#fff',
+    // Ajoutez d'autres styles spécifiques au mode sombre ic
   };
-  const normalStyles = {
-    backgroundColor: '#fff',
+  const normalStyles = { // on introduit aprés le return on passant par prop
+    backgroundColor: '#fff', 
     color: '#333',
     // Ajoutez d'autres styles spécifiques au mode normal ici
   };
-  const [darkMode, setDarkMode] = useState(false); // darMode tkon false
-  const handeldark = () => { // ki tecliki 3la handelmark tweli true
-    setDarkMode(!darkMode)
+  const [darkMode, setDarkMode] = useState(false); // darkMode tkon false
+  const handeldark = () => { // ki tecliki 3la handeldark 
+    setDarkMode(!darkMode)  // tweli true
   }
     return ( // darkMode tkone false
     <>  {/* if style = darkmode redha ==> darkModeStyles si non dirli normalStyles*/}
-        <div className="App" style={darkMode ? darkModeStyles  : normalStyles}>
+        <div className="App" style={darkMode ? darkModeStyles  : normalStyles}> {/*if darkMode true =>darkModeStyles else normalStyles */} 
         <div className='cont'>
           <div className='res'>
           <h4 style={{Color:"black"}}> Follow us </h4><Follow/> 

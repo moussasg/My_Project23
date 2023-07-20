@@ -128,8 +128,9 @@ function Card() {
     setprix(updatedTotalPrice)
   }
   const confirma =  async (quantité,nom )  => {
+    confirm(`Demande ${nom} ajouté avec succés votre commande sera traité sous peu`)
     try {
-    const response = await axios.post('http://localhost:3002/comands' ,{ quantité, nom } )
+    const response = await axios.post('http://localhost:3002/comands',{quantité, nom })
     console.log(response)
     console.log(`quantité: ${quantité}, nom: ${nom} ajouté au db`)
     }
