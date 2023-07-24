@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import axios from "axios";// bibliothèque AJAX 
 import classes from "./index.module.css" ;
 import { useParams } from "react-router-dom" ;
@@ -9,6 +9,20 @@ import Ajoutpan from "../matui/ajoutpa"
 import Addicon from "../matui/addicon";
 import Delbut from "../matui/delbuton.jsx"
 function Card() {
+  useEffect(() => {
+    checkUserAuthentication();
+  }, []);
+  const checkUserAuthentication = async () => {
+    try {
+      const response = await axios.get('http://localhost:3002/api/users/check-auth');
+      setUser(response.data.user); // Assuming the server sends back user data if authenticated, otherwise, set to null or an empty object
+    } catch (error) {
+      console.error('An error occurred while checking user authentication', error);
+      setUser
+setUser(null); // Set the user to null to indicate that the user is not authenticated
+    }
+  };    
+  const [message , setMessage] = useState("")
   const { id } = useParams();
   const FindId = MesSmartphones.find((el) => el.id === id);
   const [selectram, setselectram] = useState("");
@@ -16,7 +30,8 @@ function Card() {
   const [selectgb, setselectgb] = useState("");
   const [panier, setpanier] = useState([]); // panier yetruna Yta yetmonta 
   const [quantité, setquantité] = useState({}); // quantité initialisé avec objets vide elle peut contenir plusieurs propriété avec ces valeurs
-  const [prix, setprix] = useState(0); // prix c total
+  const [prix, setprix] = useState(0); // prix c 
+  const [user, setUser] = useState(null); // or useState({});
   const ref = useRef(null);
   const moins = (produit) => { // diminuer quantité
     setquantité( (el) => { 
@@ -42,13 +57,17 @@ function Card() {
     });//fin de setquantité
   };
   ///// ... = spread
-  const addToCart = (xi) => {
-    const updatedPanier = [...panier, { ...xi, quantité: quantité[xi.nom] || 1 }];// si j'ajoute pas quantité: {quantité[xi.nom] || 1} je peut pas extraire quantité la quantité de  nouvaux prix total et l'envoyé au backend !!!!!!!!
-    setpanier(updatedPanier);
-    const updatedTotalPrice = prix + xi.prix * (quantité[xi.nom] || 1);
-    setprix(updatedTotalPrice);
-    confirm(xi.nom + ' ' + 'ajouté avec succès');
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  const addToCart = async (xi) => {
+    try {
+      if(!user) {
+        setMessage("il faut s'inscrire ou conecté pour ajouté des produits")
+        return;
+      }
+      const userEmail = user.email;
+    }
+    catch(err) { 
+console.error('An error occurred while verifying the user', err);
+    }
   };
   // pour scroler vers prix total , j'ai définie h3 ref={ref}
   /////
@@ -176,6 +195,7 @@ function Card() {
         <div className={classes.adroite}>
           <br />
         </div>
+         <h1>{message}</h1>
         <p>filtré par</p>
       </div>
       <select value={selectram} onChange={(e) => setselectram(e.target.value)}>

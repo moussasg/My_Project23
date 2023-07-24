@@ -35,4 +35,13 @@ function MyComponent() {
 }
 export default MyComponent
 */
-
+/* console.log('1' === 1) // == compare le contenue brk / === compare le contenue w type 
+/////////
+var x = 5; variable peut réafécté
+x = 10;
+console.log(x); // Affiche 10
+//////////
+const y = 5; constante peut pas réafécté
+y = 10; // Erreur : impossible de réaffecter une constante 
+console.log(y);
+*/ 
