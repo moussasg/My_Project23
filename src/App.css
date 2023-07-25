@@ -69,5 +69,21 @@ h1 {
   gap: 10px;
   justify-content: center;
 }
+.container {
+  max-width: 100%; /* Set the maximum width of the container to the screen width */
+  overflow: hidden; /* Hide any content that overflows from the container */
+  /* Add other styling properties as needed */
+}
+@media (max-width:700px) {
+  /* Add your mobile styles here */
+  /* Example: Adjusting the layout for mobile screens */
+  .container {
+    padding: 10px; /* Reduce the padding for a more compact layout */
+  }
+  /* Example: Decreasing font size for headings */
+  /* Example: Adjusting spacing between elements */
+  /* Add other styles specific to mobile screens */
+}
+
 
 

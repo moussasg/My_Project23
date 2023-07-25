@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import classes from "./index.module.css"
 // spa : single page application sans reload ntn9l mn page l page tconverti ajax l json
 /// pour transférer les e-mails d'un serveur à un autre.
 import { useNavigate } from 'react-router-dom';
 import { Alarm } from '@mui/icons-material';
+import classes from "./index.module.css"
+import Logsi from "../../assets/logsi.png"
 const UserForm = () => {
   const navigate = useNavigate(); /// trés trés trés importants
   const [email, setEmail] = useState('');
@@ -18,38 +19,41 @@ const UserForm = () => {
       setPassword(value);
     }
   };
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event) => { // async trés trés important
     event.preventDefault();
-    try {
-      // Check if the user exists
-      const checkUserResponse = await axios.post('http://localhost:3002/sendmail', { receiver: email });
-      if (checkUserResponse.data.exists) {
-        setMessage("User already registered in the database. Please use a different email or password.");
-      } else {
-        // Register the user
-        await axios.post('http://localhost:3002/register', { email, password });
-        // Send mail after registration
-        sendMail(email);
-        // Navigate to the products page after successful registration
-        navigate('/Products');
+    try { // 1/try{} , 2/catch(error){}
+      const response = await axios.get('http://localhost:3001/api/users/', { // get psq signin , nvérifi si'il existe
+        params:{ // params fixe prédifinie de react  je vais essayer de les mettre aprés virgule au dessus
+          email,
+          password,
+        },
+      }); // fin de requete gette
+      if (response.data.exists) {
+        setMessage("user déjas inscrit dans database , change email ou password");
       }
-    } catch (error) {
-      console.error("An error occurred while verifying the user", error);
-      setMessage("Error occurred while verifying the user");
+      else { // si user n'existe pas 
+        await axios.post('http://localhost:3001/api/users/ ', {email , password})
+        console.log('user insert in db')
+        sendMail(email)/// jenvoi mail par node
+        navigate('/Products') // inscription réussite aller vers produits
+      }
+    } // fin de try
+     catch (error) {
+      console.error("Une erreur s'est produite lors de la vérification de l'utilisateur", error);
+      setMessage("Erreur lors de la vérification de l'utilisateur");
     }
-    setEmail('');
+    setEmail(''); // ${email}
     setPassword('');
-  };
-  
+  }; // fin de handelsubmit
   const sendMail = (receiver) => { // receiver conue a intérieur de sendmail au back-end dans 'to' : '' nodemailer dertelha  post f express
-    axios.post('http://localhost:3002/sendmail', { receiver })
+    axios.post('http://localhost:3001/sendmail', { receiver })
       .then(() => {
         setMessage('Thank you for your registration');
       })
       .catch((error) => {
         console.log(error);
       });
-      axios.get('http://localhost:3002/sendmail', { receiver }) // get pour all ou spécifique il suffit dire w7d et fel back dire all w7do
+      axios.get('http://localhost:3001/sendmail', { receiver }) // get pour all ou spécifique il suffit dire w7d et fel back dire all w7do
       .then(() => {
         setMessage('Thank you for your registration');
       })
@@ -61,18 +65,18 @@ const UserForm = () => {
     <div>
       <h1>{message}</h1>
       <p>SignUp</p>
-      <br/>
       <form onSubmit={handleSubmit}>
-        <div className={classes.input}>
-        <h1>Email:</h1>
+      <img height='70' width='70' src={Logsi} alt='logsi'></img>
+      <div className={classes.input}>
+        <h5>Email:</h5>
         <input type="email" name="email" value={email} onChange={handleInputChange} />
-        <h1>Password:</h1>
+        <h5>Password:</h5>
         <input type="password" name="password" value={password} onChange={handleInputChange} />
-        </div> <br/>
+        <br/>
         <button type="submit">Submit</button>
+        </div>
       </form>
     </div>
   );
 };
-
 export default UserForm;

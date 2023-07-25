@@ -9,7 +9,6 @@ import Gite from "../src/assets/github.png"
 import In from "./assets/in.png"
 import { MesSmartphones } from './constant/toutemarque'; // constante de tout mon magasin
 import Signup from "./pages/signup/signup"
-import Logout from './pages/logout.jsx/logout'; // Import the Logout component
 import Follow from './components/matui/follow';
 import Signin from './pages/signin/Signin';
 import Home from './pages/home/home';
@@ -61,17 +60,15 @@ function App() {
         <Link to="/Products">Products <Prod /> </Link>
         <Link to="/Signin">Sign in <Sign /> </Link>
         <Link to="/Signup"> Sign Up <Register /> </Link>
-        <Link to="/Logout"> Logout </Link>
         <div onClick={handeldark}> <h4>Dark Mode <Darker/></h4> </div>
       </nav>
       <Routes>
         <Route path='/Signup' element={<Signup />} />
-        <Route  path="/logout" element={<Logout/>} />
         <Route path="/Signin" element={<Signin />} />
         <Route path="/" element={<Home />} />
         <Route path="/Products" element={<Products />} />
         <Route path="/MesSmartphones/:id" element={<Card data={MesSmartphones} />} />
-      </Routes>
+      </Routes> 
       <div className='mapos'>
         <h2> Localisation </h2>
         <Location /> <br />
@@ -79,15 +76,15 @@ function App() {
           width="800" height="150" style={{ border: "0" }}
           allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
-      <div className='footer'>
-        <div><a href=''><img height='40' width='40' src={In} alt='ff'></img></a></div>
-        <div><a href=''><img height='40' width='40' src={Gite} alt='ff'></img></a></div>
-      </div> <br/>
-      <h5> © 2023 | Souag Moussa </h5>
       </div>
      </div>
      </div>
-     </div>
+     </div> <br/>
+     <div className='footer'>
+        <div><a href='https://www.linkedin.com/in/moussa-souag-2892781b5'><img height='40' width='40' src={In} alt='ff'></img></a></div>
+        <div><a href='https://github.com/moussasg/myproject'><img height='40' width='40' src={Gite} alt='ff'></img></a></div>
+      </div> <br/>
+     <h5> © 2023 | Souag Moussa </h5>
     </>
   )
 }

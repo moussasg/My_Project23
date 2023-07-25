@@ -14,7 +14,7 @@ function Card() {
   }, []);
   const checkUserAuthentication = async () => {
     try {
-      const response = await axios.get('http://localhost:3002/api/users/check-auth');
+      const response = await axios.get('http://localhost:3001/api/users/checkauth');
       setUser(response.data.user); // Assuming the server sends back user data if authenticated, otherwise, set to null or an empty object
     } catch (error) {
       console.error('An error occurred while checking user authentication', error);
@@ -149,7 +149,7 @@ console.error('An error occurred while verifying the user', err);
   const confirma =  async (quantité,nom )  => {
     confirm(`Demande ${nom} ajouté avec succés votre commande sera traité sous peu`)
     try {
-    const response = await axios.post('http://localhost:3002/comands',{quantité, nom })
+    const response = await axios.post('http://localhost:3001/comands',{quantité, nom })
     console.log(response)
     console.log(`quantité: ${quantité}, nom: ${nom} ajouté au db`)
     }
