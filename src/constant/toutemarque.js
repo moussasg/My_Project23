@@ -1,14 +1,14 @@
-import Opp from "../assets/opp.jpg" // les images
-import App from "../assets/apple.png"
-import Rea from "../assets/rea.png"
-import Xi from "../assets/xi.png" // xiaomi
-import Sam from "../assets/sam.jpg" // samsung
-import huita from "../assets/8a.png" // 
-import neufa from "../assets/9a.jpg"
-import treize from "../assets/13.jpeg"
-import qautorze from "../assets/14.jpg"
-import ultra from "../assets/s21.jpeg"
-import ultra2 from "../assets/S22.jpeg"
+import Opp from "./../assets/opp.jpg" // les images
+import App from "./../assets/apple.png"
+import Rea from "./../assets/rea.png"
+import Xi from "./../assets/xi.png" // xiaomi
+import Sam from "./../assets/sam.jpg" // samsung
+import huita from "./../assets/8a.png" // 
+import neufa from "./../assets/9a.jpg"
+import treize from "./../assets/13.jpeg"
+import qautorze from "./../assets/14.jpg"
+import ultra from "./../assets/s21.jpeg"
+import ultra2 from "./../assets/S22.jpeg"
 export const MesSmartphones = [
     { //////////////
       id: "1",

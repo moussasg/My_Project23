@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./index.module.css";
 import { Link } from "react-router-dom";
-import { MesSmartphones } from "../../constant/toutemarque";
+import { MesSmartphones } from "../constant/toutemarque"
 function Nproducts() {
   return (
     <div className={classes.container}>
@@ -15,5 +15,4 @@ function Nproducts() {
     </div>
   );
 }
-
 export default Nproducts;

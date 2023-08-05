@@ -4,27 +4,28 @@ import React , {useState} from 'react'; // useEffect hook du gestion d'effect da
 // dependencies : [tableau] contenant 'les valeurs qui déterminent si l'effet' doit être exécuté à nouveau. Si une valeur dans le tableau change entre les rendus, l'effet sera déclenché à nouveau. Si dependencies est vide, 
 //l'effet sera exécuté une seule fois après le premier rendu. ya plusieurs utilisations
 import './App.css'
+import Products from './store/nproducts'; // Remplacez par le chemin vers votre composant Products
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Gite from "../src/assets/github.png"
 import In from "./assets/in.png"
 import { MesSmartphones } from './constant/toutemarque'; // constante de tout mon magasin
-import Signup from "./pages/signup/signup"
+import Inscription from "./views/inscription"
 import Follow from './components/matui/follow';
-import Signin from './pages/signin/Signin';
-import Home from './pages/home/home';
-import { Link, Route, Routes } from 'react-router-dom';
-import Products from './pages/store/nproducts';
+import Connexion from "./views/connexion"
+import Home from  "./home/home"
 import Card from './components/article/index';
 import Sign from './components/matui/sig';
 import Register from './components/matui/register';
-import Prod from './components/matui/prod';      
-import path from "path"
 import Hom from "./components/matui/home"
 import Location from './components/matui/location';
 import Fb from './components/matui/fb';
 import Insta from './components/matui/insta';
-import Tik from "./assets/tik.jpg"
+import Tik from "./assets/tik.jpg"  
 import Darker from './components/matui/darker';
+import { Link } from 'react-router-dom';
+import {Route} from "react-router-dom"
+import { Routes } from 'react-router-dom';
+// Utilisation des middlewares
 function App() {
   const darkModeStyles = { // on introduit aprés le return on passant par prop
     backgroundColor: '#333',
@@ -40,10 +41,9 @@ function App() {
   const handeldark = () => { // ki tecliki 3la handeldark 
     setDarkMode(!darkMode)  // tweli true
   }
-    return ( // darkMode tkone false
-    <>  {/* if style = darkmode redha ==> darkModeStyles si non dirli normalStyles*/}
-  {/*bootstrap  */}
-        <div className="App" style={darkMode ? darkModeStyles  : normalStyles}> {/*if darkMode true =>darkModeStyles else normalStyles */} 
+    return (  // darkMode tkone false
+    <> 
+  <div className="App" style={darkMode ? darkModeStyles  : normalStyles}> {/*if darkMode true =>darkModeStyles else normalStyles */} 
         <div className="container"> {/*bootstrap  */}
         <div className="row">{/*bootstrap  */}
           <div className="col-md-12">
@@ -57,24 +57,25 @@ function App() {
         </div>
       <nav className="nav">
         <Link to="/">Home <Hom /> </Link>
-        <Link to="/Products">Products <Prod /> </Link>
-        <Link to="/Signin">Sign in <Sign /> </Link>
-        <Link to="/Signup"> Sign Up <Register /> </Link>
+        <Link to="/login">Sign in  <Sign/></Link>
+        <Link to="/signup"> Sign Up <Register/></Link>
         <div onClick={handeldark}> <h4>Dark Mode <Darker/></h4> </div>
+        <a href='/logout'> Déconnexion </a>
       </nav>
       <Routes>
-        <Route path='/Signup' element={<Signup />} />
-        <Route path="/Signin" element={<Signin />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/Products" element={<Products />} />
-        <Route path="/MesSmartphones/:id" element={<Card data={MesSmartphones} />} />
+        <Route path='/signup' element={<Inscription />}/>
+        <Route path="/login" element={<Connexion/>}/>
+        <Route path="/" element={<Home />}/>
+        <Route path='/products' element={<Products/>}/>
+      <Route path="/MesSmartphones/:id" element={<Card data={MesSmartphones} />} />
       </Routes> 
       <div className='mapos'>
         <h2> Localisation </h2>
         <Location /> <br />
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25578.110244640386!2d3.007740294686316!3d36.74023905831581!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb20a92cfe02b%3A0x5417f83e218b9393!2sHydra!5e0!3m2!1sfr!2sdz!4v1678997642374!5m2!1sfr!2sdz"
           width="800" height="150" style={{ border: "0" }}
-          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
       </div>
       </div>
      </div>

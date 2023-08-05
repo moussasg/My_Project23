@@ -1,10 +1,10 @@
 import React from 'react'
 import classe from "./index.module.css"
-import LogoAceuill from "../../assets/logos.jpg"
+import LogoAceuill from "./../assets/logos.jpg"
 import 'bootstrap/dist/js/bootstrap.js';
-import Signup from "../signup/signup"
+import Signup from "../views/inscription"
 import 'bootstrap/dist/css/bootstrap.css';
-import { Link , Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 export default function Home() {
   return (
     <>
