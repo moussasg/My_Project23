@@ -1,26 +1,20 @@
 // src/Login.js
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  console.log('Rendering signin component'); // Ajoutez cette ligne
-
+  const navigate = useNavigate()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:3001/login', {
-        method: 'POST',
-        body: JSON.stringify({ email, password }),
-        headers: { 'Content-Type': 'application/json' }
-      });
-      if (!res.ok) {
-        console.log('Error response from server:', res);
-      } else {
-        const data = await res.json();
-        console.log('Response Data:', data);
-      }
+      const response = await axios.post('http://localhost:3001/login', {email,password});
+      if (response.data.success ===true) { // il faut déclaré success dans le backedn f la réponse li trécupiriha
+        navigate('/products')
+    } 
     } catch (err) {
       console.log('Fetch error:', err);
     }

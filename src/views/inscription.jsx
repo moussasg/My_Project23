@@ -1,56 +1,38 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
-function Signup() {
-  const navigate = useNavigate();
+import { useNavigate } from 'react-router-dom';
+function UserForm() {
+  const navigate = useNavigate()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setEmailError('');
-    setPasswordError('');
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    if (name === 'email') setEmail(value);
+    if (name === 'password') setPassword(value);
+  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const response = await axios.post('/signup', { email, password });
-      const data = response.data;
-      console.log(data);
-      if (data.errors) {
-        if (data.errors.email) {
-          setEmailError(data.errors.email);
-        }
-        if (data.errors.password) {
-          setPasswordError(data.errors.password);
-        }
-        throw new Error('Validation error(s) occurred.');
-      }
-      if (data.user) {
-        navigate('/login');
-      }
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        console.log('Axios error:', err.response.data);
-        throw new Error('Error occurred while processing the request.');
-      } else {
-        console.log('Generic error:', err);
-        throw new Error('An unexpected error occurred.');
-      }
+    const response = await axios.post('http://localhost:3001/signup', {email,password});
+    console.log(response)
+    if (response.data.success===true) { // il faut déclaré success dans le backedn f la réponse li trécupiriha
+        navigate('/login')
     }
+    } catch (error) {
+        console.error('Response data:', error.response?.data);    }
   };
   return (
     <div>
-      <h1>Signup</h1>
-      <form action="/signup" onSubmit={handleSubmit}>
-        <label>Email:</label>
-        <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <div className="email error">{emailError}</div>
-        <label>Password:</label>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <div className="password error">{passwordError}</div>
-        <button type="submit">Sign up</button>
+      <p>SignUp</p>
+      <form onSubmit={handleSubmit}>
+        <h1>Email : </h1>
+        <input type="email" name="email" value={email} onChange={handleChange} />
+        <h1>Password :</h1>
+        <input type="password" name="password" value={password} onChange={handleChange} />
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
 }
-export default Signup;
+
+export default UserForm;

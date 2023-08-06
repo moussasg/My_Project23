@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');//jsonwebtoken structure de données dans le
 const bcrypt = require('bcrypt')
 ////2) Authcontroller : comunique avec mongoose / modules or classes for handling authentication-routes logic and endpoints. for signup+signin et export les
 // handle errors
-const RequireAuth = (req, res, next) => { // exporte vers app.js
+const requireAuth = (req, res, next) => { // exporte vers app.js
   const token = req.cookies.jwt; // récupéré valeur du token from cookie
   // check json web token exists & is verified
   if (token) {// if token valide  / 'net ninja secret' clé secret de token le meme pour token d'inscription + connexion
@@ -19,6 +19,24 @@ const RequireAuth = (req, res, next) => { // exporte vers app.js
     });
   } else {
     res.redirect('/login');
+  }
+};
+const checkUser = (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (token) {
+    jwt.verify(token, 'net ninja secret', async (err, decodedToken) => {
+      if (err) {
+        res.locals.user = null;
+        next();
+      } else {
+        let user = await User.findById(decodedToken.id);
+        res.locals.user = user;
+        next();
+      }
+    });
+  } else {
+    res.locals.user = null;
+    next();
   }
 };
 const handleErrors = (err) => {
@@ -58,49 +76,35 @@ const createToken = (id) => {// on introduit a intérieur des posts dans const t
 };
 // controller actions
 // controller actions for signup(post , get) + login(post,get) on les exports vers AuthRoutes
-exports.signup_get = (req, res) => {
-  res.json({ signup: true }); // fel get nutilisi res.render
-}
-exports.login_get = (req, res) => {
-  res.json({ login: true });
-}
-exports.products_get = (req, res) => {
-  // Your logic to handle the '/products' route goes here
-  res.render('products');
-};
-module.exports.signup_post = async (req, res) => {
+const login_post = async (req, res) => {
   const { email, password } = req.body;
-  try {
-    const user = await User.create({ email, password });
-    const token = createToken(user._id);
-    res.json({ user: newUser });
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(200).json({ user: user._id });
-  }
-  catch(err) {
-    const errors = handleErrors(err);
-    res.status(400).json({ errors });
-  }
-}
-module.exports.login_post = async (req, res) => {
-  const { email, password } = req.body;
-
   try {
     const user = await User.login(email, password);
     const token = createToken(user._id);
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(201).json({ user: user._id });
+    res.status(200).json({ success: true , user: user._id });
   } 
   catch (err) {
     const errors = handleErrors(err);
-    res.status(400).json({ errors });
+    res.status(400).json({ success: false , errors });
   }
 }
-exports.logout_get = (req, res) => {
-  res.cookie('jwt', '', { maxAge: 1 });
-  res.redirect('/');
+const signup_post = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.create({ email, password });
+    const token = createToken(user._id);
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.status(200).json({ success: true , user: user._id });
+  }
+  catch(err) {
+    const errors = handleErrors(err);
+    res.status(400).json({ success: false , errors });
+  }
 }
 module.exports = {
-  RequireAuth,
-  User
-};
+  signup_post,
+  login_post,
+  checkUser,
+  requireAuth,
+}
