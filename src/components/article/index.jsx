@@ -1,36 +1,25 @@
 import React, { useState , useEffect} from "react";
 import axios from "axios";// bibliothèque AJAX 
 import classes from "./index.module.css" ;
-import { useParams } from "react-router-dom" ;
+import { Link, useParams } from "react-router-dom" ;
 import { MesSmartphones } from "../../constant/toutemarque";
 import { useRef } from "react";
 import Pan from "./pan.jpeg"
 import Ajoutpan from "../matui/ajoutpa"
 import Addicon from "../matui/addicon";
+import Logout from "../../views/logout";
+import Logoutui from "../matui/logout"
 import Delbut from "../matui/delbuton.jsx"
 function Card() {
-  useEffect(() => {
-    checkUserAuthentication();
-  }, []);
-  const checkUserAuthentication = async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/api/users/checkauth');
-      setUser(response.data.user); // Assuming the server sends back user data if authenticated, otherwise, set to null or an empty object
-    } catch (error) {
-      console.error('An error occurred while checking user authentication', error);
-      setUser
-setUser(null); // Set the user to null to indicate that the user is not authenticated
-    }
-  };    
-  const [message , setMessage] = useState("")
   const { id } = useParams();
   const FindId = MesSmartphones.find((el) => el.id === id);
+  console.log("FindId:", FindId);
   const [selectram, setselectram] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [selectgb, setselectgb] = useState("");
   const [panier, setpanier] = useState([]); // panier yetruna Yta yetmonta 
   const [quantité, setquantité] = useState({}); // quantité initialisé avec objets vide elle peut contenir plusieurs propriété avec ces valeurs
-  const [prix, setprix] = useState(0); // prix c 
+  const [prix, setprix] = useState(0); // setprix = prixtotal
   const [user, setUser] = useState(null); // or useState({});
   const ref = useRef(null);
   const moins = (produit) => { // diminuer quantité
@@ -57,17 +46,20 @@ setUser(null); // Set the user to null to indicate that the user is not authenti
     });//fin de setquantité
   };
   ///// ... = spread
-  const addToCart = async (xi) => {
-    try {
-      if(!user) {
-        setMessage("il faut s'inscrire ou conecté pour ajouté des produits")
-        return;
-      }
-      const userEmail = user.email;
-    }
-    catch(err) { 
-console.error('An error occurred while verifying the user', err);
-    }
+  const addToCart = (xi) => {
+    const updatedPanier = [...panier, { ...xi, quantité: quantité[xi.nom] || 1 }];// si j'ajoute pas quantité: {quantité[xi.nom] || 1} je peut pas extraire quantité la quantité de  nouvaux prix total et l'envoyé au backend !!!!!!!!
+    setpanier(updatedPanier);
+    const updatedTotalPrice = prix + xi.prix * (quantité[xi.nom] || 1);
+    setprix(updatedTotalPrice);
+    confirm(xi.nom + ' ' + 'ajouté avec succès');
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+    const updatedQuantité = { ...xi }; // je return updatedQuantité => les ancien quantité ; meme dans plus
+    if (updatedQuantité[produit] > 1) { 
+      updatedQuantité[produit] --; // updatedQuantité[produit] = -1 
+    } else { // updatedQuantité[produit] < 1
+      updatedQuantité[produit] = 1;
+    } // ila kane = 1 khelih kima rah matzidche tna9asse
+  return updatedQuantité;
   };
   // pour scroler vers prix total , j'ai définie h3 ref={ref}
   /////
@@ -98,9 +90,6 @@ console.error('An error occurred while verifying the user', err);
       <div className={classes.tout}>
         {filteredSmartphones.map((el, i) => (
           <div key={i} className={classes.xiaomi}>
-            <div className={classes.marque}>
-              <h1>{el.marque}</h1>
-            </div>
             <table className={classes.table}>
               <tbody>
                 <tr>
@@ -140,11 +129,21 @@ console.error('An error occurred while verifying the user', err);
       </div>
     );
   }; /// fin de renderSmartphones
-  const handeldelete = (el) => {
-    const delpanier = panier.filter((xi)=> xi !== el)
+  const handeldelete = (xi) => {  
+  //Filtrer le panier pour retirer l'élément supprimé
+    const delpanier = panier.filter((item)=> item !== xi)
     setpanier(delpanier)
-    const updatedTotalPrice = prix - (el.prix * (quantité[el.nom] || 1))// prix = ancienc prix des produits + le nouv 
-    setprix(updatedTotalPrice)
+    // Recalculer le nouveau prix total en soustrayant le prix de l'élément supprimé
+    const updatedTotalPrice = prix - xi.prix * (quantité[xi.nom] || 1); // prix total - prix suprimé 
+    setprix(updatedTotalPrice);
+    // Mise à jour de la quantité (notez que cette partie semble incorrecte, elle doit être ajustée en fonction de vos besoins)
+    const updatedQuantité = { ...quantité}; // je return updatedQuantité => les ancien quantité ; meme dans plus
+    if (updatedQuantité[xi.nom] > 1) { 
+      updatedQuantité[xi.nom] --; // updatedQuantité[produit] = -1 
+    } else { // updatedQuantité[produit] < 1
+      updatedQuantité[xi.nom] = 1;
+    } // ila kane = 1 khelih kima rah matzidche tna9asse
+     setquantité(updatedQuantité); /// trés trés trés important pour changé prix total a chaque suprission
   }
   const confirma =  async (quantité,nom )  => {
     confirm(`Demande ${nom} ajouté avec succés votre commande sera traité sous peu`)
@@ -169,16 +168,11 @@ console.error('An error occurred while verifying the user', err);
             <h1> <li key={el1} className={classes.delete}> {/*si panier n'est pas vide*/}
             <div className={classes.del}>
                 {xi.nom} - Quantité: {quantité[xi.nom] || 1} - Prix: {xi.prix * (quantité[xi.nom] || 1)} - 
-                  <div onClick={()=>handeldelete(xi)}> <Delbut/> 
-                  <div className={classes.ach}>
-                  </div>  
-                  </div>
-                  {panier.map((tic,tic1) => (
-          <div key={tic1}>
-      <button onClick={() =>confirma(tic.quantité, tic.nom)}>Acheté</button>
-      </div>
-        ))}
+                  <div onClick={()=>handeldelete(xi)}> <Delbut/>  </div>  
           </div>
+      <div className={classes.acheté}>
+      <button onClick={() =>confirma(tic.quantité, tic.nom)}>Acheté</button> 
+      </div> 
               {/*xi psq j'ai mapé avec xi*/}
               </li> {/*|| est utilisé pour fournir une valeur par défaut lorsque la quantité d'un produit n'est pas définie ou est falsy. Cela permet d'éviter les erreurs*/}
             </h1> 
@@ -191,12 +185,14 @@ console.error('An error occurred while verifying the user', err);
   }; /// fin de render panier
   return (
     <>
+    <div className={classes.logout}>
+                  <Logout/>
+                  </div>
       <div className="filtre">
-        <div className={classes.adroite}>
-          <br />
-        </div>
-         <h1>{message}</h1>
-        <p>filtré par</p>
+        <Link to='/products'> <Logoutui/> All Products</Link>
+         <h3>{FindId.buttonText}</h3>
+         <img src={FindId.image}></img>
+        <p>filtré par</p> 
       </div>
       <select value={selectram} onChange={(e) => setselectram(e.target.value)}>
         <option value="">RAM</option>

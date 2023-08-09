@@ -1,9 +1,19 @@
-.table{
-    display: flex;
-    gap: 1px;
-  }
+.table img {
+  max-width: 100%; /* Assurez-vous que les images ne dépassent pas la largeur de leur conteneur */
+  height: auto; /* Permet aux images de conserver leur rapport hauteur/largeur */
+  display: block; /* Pour éviter les espaces vides sous les images inline */
+  margin: 0 auto; /* Centrer les images horizontalement si nécessaire */
+  /* Autres styles spécifiques aux images à l'intérieur de .table */
+}
   td{
     border: 2px solid black;
+  }
+  .logout {
+display: flex;
+  }
+  .acheté {
+    display: flex;
+    justify-content: center;
   }
   .carprix {
     display: flex;

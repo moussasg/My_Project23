@@ -13,7 +13,7 @@ export const MesSmartphones = [
     { //////////////
       id: "1",
       image: Xi,
-      buttonText: "Nos Produits Xiaomi",
+      buttonText: "Our Products Xiaomi",
       produits:[
         {
           marque :"Xioami",
@@ -33,13 +33,22 @@ export const MesSmartphones = [
           ram : "2gb",
           gb:"32gb",
           Ajouté:"Ajouté au panier",
+        },
+        {
+          imgp:neufa,
+          nom:"9a" ,
+          caractér: "caractéristique : Ram : 2gb" ,
+          prix : 22000,
+          ram : "2gb",
+          gb:"32gb",
+          Ajouté:"Ajouté au panier",
         }
       ]
     }, //////////////
     { //////////////////
       id: "2",
       image: App,
-      buttonText: "Nos Produits Apple",
+      buttonText: "Our Products Apple",
       produits:[
         {
           marque :"Apple" ,
@@ -67,7 +76,7 @@ export const MesSmartphones = [
     {
       id: "3",
       image: Sam,
-      buttonText: "Nos Produits Samsung",
+      buttonText: "Our Products Samsung",
       produits:[
         {
           marque :"Smasung",
@@ -95,7 +104,7 @@ export const MesSmartphones = [
     {
       id: "4",
       image: Rea,
-      buttonText: "Nos Produits Realme",
+      buttonText: "Our Products Realme",
       produits:[
         {
           marque :"Realme" ,
@@ -113,7 +122,7 @@ export const MesSmartphones = [
     {
       id: "5",
       image: Opp,
-      buttonText: "Nos Produits Oppo",
+      buttonText: "Our Products Oppo",
       produits: [
         {
           marque :"Oppo" ,

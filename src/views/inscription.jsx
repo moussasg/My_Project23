@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import logsi from "../assets/logsi.png"
 import { useNavigate } from 'react-router-dom';
+import classe from "./ins.module.css"
 function UserForm() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('');
@@ -13,25 +15,28 @@ function UserForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-    const response = await axios.post('http://localhost:3001/signup', {email,password});
+    const response = await axios.post('http://localhost:3002/signup', {email,password});
     console.log(response)
     if (response.data.success===true) { // il faut déclaré success dans le backedn f la réponse li trécupiriha
         navigate('/login')
     }
-    } catch (error) {
+    } catch (error) { 
         console.error('Response data:', error.response?.data);    }
   };
   return (
-    <div>
-      <p>SignUp</p>
+    <>
+      <h3>SignUp</h3>
       <form onSubmit={handleSubmit}>
-        <h1>Email : </h1>
+      <img height='70' width='70' src={logsi} alt='logsi'></img>
+      <div className={classe.inscr}>
+        <h5>Email : </h5>
         <input type="email" name="email" value={email} onChange={handleChange} />
-        <h1>Password :</h1>
+        <h5>Password :</h5>
         <input type="password" name="password" value={password} onChange={handleChange} />
         <button type="submit">Submit</button>
-      </form>
-    </div>
+       </div>
+       </form>
+       </>
   );
 }
 

@@ -1,17 +1,17 @@
-import React , {useState} from 'react'; // useEffect hook du gestion d'effect dans react 
+import React , { useState } from 'react'; // useEffect hook du gestion d'effect dans react 
 //useEffect( callback , [dependencies] );
 // callback : fonction:  bloc de code réutilisable  exécutée 'après chaque rendu' du composant.
 // dependencies : [tableau] contenant 'les valeurs qui déterminent si l'effet' doit être exécuté à nouveau. Si une valeur dans le tableau change entre les rendus, l'effet sera déclenché à nouveau. Si dependencies est vide, 
 //l'effet sera exécuté une seule fois après le premier rendu. ya plusieurs utilisations
 import './App.css'
-import Products from './store/nproducts'; // Remplacez par le chemin vers votre composant Products
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Gite from "../src/assets/github.png"
 import In from "./assets/in.png"
+import Products from "./store/nproducts"
 import { MesSmartphones } from './constant/toutemarque'; // constante de tout mon magasin
 import Inscription from "./views/inscription"
 import Follow from './components/matui/follow';
-import Connexion from "./views/connexion"
+import Connexion from "./views/co/connexion"
 import Home from  "./home/home"
 import Card from './components/article/index';
 import Sign from './components/matui/sig';
@@ -22,10 +22,8 @@ import Fb from './components/matui/fb';
 import Insta from './components/matui/insta';
 import Tik from "./assets/tik.jpg"  
 import Darker from './components/matui/darker';
-import { Link } from 'react-router-dom';
-import {Route} from "react-router-dom"
-import { Routes } from 'react-router-dom';
-// Utilisation des middlewares
+import { Routes  , Route , Link } from 'react-router-dom';
+import Logout from "./views/logout"
 function App() {
   const darkModeStyles = { // on introduit aprés le return on passant par prop
     backgroundColor: '#333',
@@ -42,7 +40,7 @@ function App() {
     setDarkMode(!darkMode)  // tweli true
   }
     return (  // darkMode tkone false
-    <> 
+    <>
   <div className="App" style={darkMode ? darkModeStyles  : normalStyles}> {/*if darkMode true =>darkModeStyles else normalStyles */} 
         <div className="container"> {/*bootstrap  */}
         <div className="row">{/*bootstrap  */}
@@ -60,13 +58,13 @@ function App() {
         <Link to="/login">Sign in  <Sign/></Link>
         <Link to="/signup"> Sign Up <Register/></Link>
         <div onClick={handeldark}> <h4>Dark Mode <Darker/></h4> </div>
-        <a href='/logout'> Déconnexion </a>
       </nav>
       <Routes>
         <Route path='/signup' element={<Inscription />}/>
         <Route path="/login" element={<Connexion/>}/>
-        <Route path="/" element={<Home />}/>
         <Route path='/products' element={<Products/>}/>
+        <Route path='/logout' element={<Logout/>}/>
+      <Route path='' element={<Home/>}/>
       <Route path="/MesSmartphones/:id" element={<Card data={MesSmartphones} />} />
       </Routes> 
       <div className='mapos'>
@@ -86,7 +84,7 @@ function App() {
         <div><a href='https://github.com/moussasg/myproject'><img height='40' width='40' src={Gite} alt='ff'></img></a></div>
       </div> <br/>
      <h5> © 2023 | Souag Moussa </h5>
-    </>
+     </>
   )
 }
 export default App

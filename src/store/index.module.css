@@ -4,7 +4,10 @@
   align-items: center;
   flex-wrap: wrap;
 }
-
+.deconex {
+  display: flex;
+  justify-content: flex-start;
+}
 .cardContainer {
   display: flex;
   flex-direction: column;

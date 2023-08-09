@@ -3,24 +3,25 @@ const jwt = require('jsonwebtoken');//jsonwebtoken structure de données dans le
 const bcrypt = require('bcrypt')
 ////2) Authcontroller : comunique avec mongoose / modules or classes for handling authentication-routes logic and endpoints. for signup+signin et export les
 // handle errors
-const requireAuth = (req, res, next) => { // exporte vers app.js
-  const token = req.cookies.jwt; // récupéré valeur du token from cookie
-  // check json web token exists & is verified
-  if (token) {// if token valide  / 'net ninja secret' clé secret de token le meme pour token d'inscription + connexion
-    jwt.verify(token, 'net ninja secret', (err, decodedToken) => {//serverdecoded token
-      if (err) { // si n'est pas valide
+const requireAuth = (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (token) {
+    jwt.verify(token, 'net ninja secret', (err, decodedToken) => {
+      if (err) {
         console.log(err.message);
+        // Si une erreur se produit, redirigez l'utilisateur vers la page de connexion
         res.redirect('/login');
-      } else {// si  valide
+      } else {
         console.log(decodedToken);
-        res.redirect('/products');
-        next();
+        next(); 
       }
     });
   } else {
+    // Si aucun token n'est présent, redirigez l'utilisateur vers la page de connexion
     res.redirect('/login');
   }
 };
+
 const checkUser = (req, res, next) => {
   const token = req.cookies.jwt;
   if (token) {
@@ -82,11 +83,12 @@ const login_post = async (req, res) => {
     const user = await User.login(email, password);
     const token = createToken(user._id);
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(200).json({ success: true , user: user._id });
-  } 
+    res.status(200).json({ success: true, user: user._id });
+    // Après une connexion réussie
+  }
   catch (err) {
     const errors = handleErrors(err);
-    res.status(400).json({ success: false , errors });
+    res.status(400).json({ success: false, errors });
   }
 }
 const signup_post = async (req, res) => {
@@ -95,16 +97,24 @@ const signup_post = async (req, res) => {
     const user = await User.create({ email, password });
     const token = createToken(user._id);
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(200).json({ success: true , user: user._id });
+    res.status(200).json({ success: true, user: user._id });
   }
-  catch(err) {
+  catch (err) {
     const errors = handleErrors(err);
-    res.status(400).json({ success: false , errors });
+    res.status(400).json({ success: false, errors });
   }
+}
+
+const logout_get = async(req,res) => {
+  res.cookie('jwt', '', { maxAge: 1 });
+  // Après une déconnexion
+  res.redirect('/');
 }
 module.exports = {
   signup_post,
   login_post,
   checkUser,
   requireAuth,
+  logout_get,
 }
+
