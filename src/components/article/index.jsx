@@ -4,6 +4,7 @@ import classes from "./index.module.css" ;
 import { Link, useParams } from "react-router-dom" ;
 import { MesSmartphones } from "../../constant/toutemarque";
 import { useRef } from "react";
+import Formcomands from "./formcomands";
 import Pan from "./pan.jpeg"
 import Ajoutpan from "../matui/ajoutpa"
 import Addicon from "../matui/addicon";
@@ -145,16 +146,10 @@ function Card() {
     } // ila kane = 1 khelih kima rah matzidche tna9asse
      setquantité(updatedQuantité); /// trés trés trés important pour changé prix total a chaque suprission
   }
-  const confirma =  async (quantité,nom )  => {
-    confirm(`Demande ${nom} ajouté avec succés votre commande sera traité sous peu`)
-    try {
-    const response = await axios.post('http://localhost:3001/comands',{quantité, nom })
-    console.log(response)
-    console.log(`quantité: ${quantité}, nom: ${nom} ajouté au db`)
-    }
-    catch(error){
-    console.log(error);
-    }}
+  const confirma =   ()  => {
+    <Formcomands/>
+    console.log('acheté cliqué')
+  }
   const renderPanier = () => { // ndiroha f dernier return
     return (
       <div className={classes.panier}>
@@ -171,7 +166,7 @@ function Card() {
                   <div onClick={()=>handeldelete(xi)}> <Delbut/>  </div>  
           </div>
       <div className={classes.acheté}>
-      <button onClick={() =>confirma(tic.quantité, tic.nom)}>Acheté</button> 
+      <button onClick={() =>confirma()}>Acheté</button> 
       </div> 
               {/*xi psq j'ai mapé avec xi*/}
               </li> {/*|| est utilisé pour fournir une valeur par défaut lorsque la quantité d'un produit n'est pas définie ou est falsy. Cela permet d'éviter les erreurs*/}
@@ -189,9 +184,11 @@ function Card() {
                   <Logout/>
                   </div>
       <div className="filtre">
-        <Link to='/products'> <Logoutui/> All Products</Link>
+        <Link to='/products'> <Logoutui/> All Products</Link> 
+        <br/>
+<br/>
          <h3>{FindId.buttonText}</h3>
-         <img src={FindId.image}></img>
+         <img width='200px' height='100px'src={FindId.image}></img>
         <p>filtré par</p> 
       </div>
       <select value={selectram} onChange={(e) => setselectram(e.target.value)}>

@@ -91,11 +91,47 @@ const login_post = async (req, res) => {
     res.status(400).json({ success: false, errors });
   }
 }
+const users_get = async (req, res) => { // get all users
+  const { email, password } = req.body;// pour accéder aux données envoyées dans le corps de la requête : pour post
+  try {
+    const users = await User.find(email, password);
+    res.json(users)
+    // Après une connexion réussie
+  }
+  catch (err) {
+    res.status(400).json({ success: false, errors });
+  }
+}
+const user_get = async (req, res) => { // get spécifique user
+  const { email } = req.query;// query pour récupéré email a partir de url
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      res.status(200).json({ success: true});
+    } else {
+      res.status(404).json({ success: false});
+    }
+  } catch (err) {
+    res.status(500).json({ success: false});
+  }
+}
+const commands_post = async (req,res)=> {
+  const {nom , adress , numero} = req.body;
+  try {
+    const user = await Command.create({nom,adress,numero})
+    console.log(`nom:${nom} ,adress:${adress} , numero:${numero}`)
+    res.status(200).json({ success: true , user: user._id });
+  }
+  catch(err) {
+    res.status(400).json({ success: false });
+  }
+}
 const signup_post = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.create({ email, password });
     const token = createToken(user._id);
+    console.log(token)
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(200).json({ success: true, user: user._id });
   }
@@ -104,7 +140,6 @@ const signup_post = async (req, res) => {
     res.status(400).json({ success: false, errors });
   }
 }
-
 const logout_get = async(req,res) => {
   res.cookie('jwt', '', { maxAge: 1 });
   // Après une déconnexion
@@ -112,9 +147,12 @@ const logout_get = async(req,res) => {
 }
 module.exports = {
   signup_post,
+  users_get,
+  user_get,
   login_post,
   checkUser,
   requireAuth,
   logout_get,
+  commands_post,
 }
 

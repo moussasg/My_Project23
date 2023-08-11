@@ -10,6 +10,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.post('/signup', authController.signup_post);
 app.post('/login', authController.login_post);
+app.get('/users', authController.users_get); // get all users
+app.get('/user', authController.user_get); // get spécifique user
 app.get('/logout', (req, res) => {
   // Clear the JWT cookie and perform any other necessary logout logic
   res.clearCookie('jwt');
@@ -39,12 +41,15 @@ app.use((req, res, next) => {
   next();
 });
 // Database connection
-const dbURI = 'mongodb+srv://myjwt:9IzN7JaizU41xKTY@cluster0.lseehws.mongodb.net/jwt?retryWrites=true&w=majority';
+const dbURI = 'mongodb+srv://myjwt:gHr0wZK7kdwwCG71@cluster0.iejtzdc.mongodb.net/jwt?retryWrites=true&w=majority';
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connexion réussie à la base de données'))
-  .catch((err) => console.log(err));
-
-// Start the server
-app.listen(3002, () => {
-  console.log(`Server started on port 3002`);
-});
+  .then(() => {
+    console.log('Connexion réussie à la base de données jwt');
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+  /////    const dbcom = 'mongodb+srv://mycomands:HObSfEfaovE11CSb@cluster0.hm0gov7.mongodb.net/com?retryWrites=true&w=majority';
+app.listen(3002 , () => {
+  console.log('connexced to server at 3002')
+})

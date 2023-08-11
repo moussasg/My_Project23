@@ -32,6 +32,14 @@ const userSchema = new mongoose.Schema({
     }
     throw Error('incorrect email');
   };
-  var User = mongoose.model('user', userSchema)
-  module.exports = User
+var User = mongoose.model('user', userSchema)
+module.exports = User  
+/*
+const commands = new mongoose.Schema({
+  nom : {type:String},
+  adress : {type:String},
+  numero:{type:Number}
+})
+var Command = mongoose.model('command', commands)
+*/
  
