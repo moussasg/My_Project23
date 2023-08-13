@@ -4,7 +4,7 @@ import classes from "./index.module.css" ;
 import { Link, useParams } from "react-router-dom" ;
 import { MesSmartphones } from "../../constant/toutemarque";
 import { useRef } from "react";
-import Formcomands from "./formcomands";
+import Formcomands from "./forms/formcomands";
 import Pan from "./pan.jpeg"
 import Ajoutpan from "../matui/ajoutpa"
 import Addicon from "../matui/addicon";
@@ -14,7 +14,6 @@ import Delbut from "../matui/delbuton.jsx"
 function Card() {
   const { id } = useParams();
   const FindId = MesSmartphones.find((el) => el.id === id);
-  console.log("FindId:", FindId);
   const [selectram, setselectram] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [selectgb, setselectgb] = useState("");
@@ -60,7 +59,7 @@ function Card() {
     } else { // updatedQuantité[produit] < 1
       updatedQuantité[produit] = 1;
     } // ila kane = 1 khelih kima rah matzidche tna9asse
-  return updatedQuantité;
+  return {updatedQuantité , marque: xi.marque}
   };
   // pour scroler vers prix total , j'ai définie h3 ref={ref}
   /////
@@ -89,19 +88,19 @@ function Card() {
     }
     return (
       <div className={classes.tout}>
-        {filteredSmartphones.map((el, i) => (
+        {filteredSmartphones.map((xi, i) => (
           <div key={i} className={classes.xiaomi}>
             <table className={classes.table}>
               <tbody>
                 <tr>
                   <td>
-                    <h1>{el.nom}</h1> 
-                    Quantité: {quantité[el.nom] || 1} {/*|| 1 pour éviter les éreur si yas un probléme sa afiche 1*/}
-                    <h3> Prix: {el.prix * (quantité[el.nom] || 1)}</h3>
+                    <h1>{xi.nom}</h1> 
+                    Quantité: {quantité[xi.nom] || 1} {/*|| 1 pour éviter les éreur si yas un probléme sa afiche 1*/}
+                    <h3> Prix: {xi.prix * (quantité[xi.nom] || 1)}</h3>
                     <div className={classes.plusmoinsajout}>
-                    <div onClick={() => plus(el.nom)}> <Addicon/> </div>
-                    <div onClick={() => moins(el.nom)}> <button>- </button></div>
-                    <div onClick={() => addToCart({nom: el.nom , prix: el.prix})}>
+                    <div onClick={() => plus(xi.nom)}> <Addicon/> </div>
+                    <div onClick={() => moins(xi.nom)}> <button>- </button></div>
+                    <div onClick={() => addToCart({nom: xi.nom , prix: xi.prix , marque: xi.marque})}>
                       {/*nas7a9e nom et prix de produits*/}
                       <Ajoutpan/>
                     </div>
@@ -110,17 +109,17 @@ function Card() {
                 </tr>
                 <tr>
                   <td>
-                    <img src={el.imgp} alt={el.nom} />
+                    <img src={xi.imgp} alt={xi.nom} />
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <h1>{el.caractér} / {el.gb} Stockage</h1>
+                    <h1>{xi.caractér} / {xi.gb} Stockage</h1>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <h1>Prix : {el.prix}</h1>
+                    <h1>Prix : {xi.prix}</h1>
                   </td>
                 </tr>
               </tbody>
@@ -146,9 +145,18 @@ function Card() {
     } // ila kane = 1 khelih kima rah matzidche tna9asse
      setquantité(updatedQuantité); /// trés trés trés important pour changé prix total a chaque suprission
   }
-  const confirma =   ()  => {
-    <Formcomands/>
-    console.log('acheté cliqué')
+  const [showcomp,setshowcomp] = useState(false) // showcomp
+  const confirma =  (xi)  => {
+    setshowcomp(!false) // ki tecliki 3la acheté componenets acheté yro7e 
+    const updatedTotalPrice = prix + xi.prix * (quantité[xi.nom] || 1);
+    setprix(updatedTotalPrice);
+    const updatedQuantité = { ...xi }; // je return updatedQuantité => les ancien quantité ; meme dans plus
+    if (updatedQuantité[xi.nom] > 1) { 
+      updatedQuantité[xi.nom] --; // updatedQuantité[xi.nom] = -1 
+    } else { // updatedQuantité[xi.nom] < 1
+      updatedQuantité[xi.nom] = 1;
+    } // ila kane = 1 khelih kima rah matzidche tna9asse
+  return {updatedQuantité , marque: xi.marque}
   }
   const renderPanier = () => { // ndiroha f dernier return
     return (
@@ -157,36 +165,36 @@ function Card() {
         <img src={Pan} alt="ff"></img>
         {panier.length === 0 ? ( /// if panier.length = 0 psq drtlo tablaux videpanier vide si panier n'est pas vide
           <p> Le panier est vide. </p> // panier drtelha setpanier dakhel addtocart
-        ) : ( 
+        ) : (
           <ul> {/* si panier n'est pas vide */}
             {panier.map((xi, el1) => ( // panier jate m setpanier li dakhel addtocart
             <h1> <li key={el1} className={classes.delete}> {/*si panier n'est pas vide*/}
             <div className={classes.del}>
-                {xi.nom} - Quantité: {quantité[xi.nom] || 1} - Prix: {xi.prix * (quantité[xi.nom] || 1)} - 
-                  <div onClick={()=>handeldelete(xi)}> <Delbut/>  </div>  
-          </div>
+              {xi.marque} {xi.nom} - Quantité: {quantité[xi.nom] || 1} - Prix: {xi.prix * (quantité[xi.nom] || 1)} - 
+        <div onClick={()=>handeldelete(xi)}> <Delbut/>  </div>  
       <div className={classes.acheté}>
-      <button onClick={() =>confirma()}>Acheté</button> 
-      </div> 
+      {showcomp ? <Formcomands quantité={xi.quantité} prix={xi.prix} marque={xi.marque}/> : <button onClick={()=>confirma(xi)}>Acheté</button>}
+      </div>
+      </div>
               {/*xi psq j'ai mapé avec xi*/}
               </li> {/*|| est utilisé pour fournir une valeur par défaut lorsque la quantité d'un produit n'est pas définie ou est falsy. Cela permet d'éviter les erreurs*/}
-            </h1> 
+            </h1>
             ))}
           </ul>
         )}
         <h3 ref={ref} className={classes.prixtot}>Prix total: {prix}</h3> {/*prix = total*/}
       </div> 
     );
-  }; /// fin de render panier
+  }
   return (
     <>
     <div className={classes.logout}>
                   <Logout/>
                   </div>
-      <div className="filtre">
+      <div className={classes.filtre}>
         <Link to='/products'> <Logoutui/> All Products</Link> 
         <br/>
-<br/>
+    <br/>
          <h3>{FindId.buttonText}</h3>
          <img width='200px' height='100px'src={FindId.image}></img>
         <p>filtré par</p> 
@@ -212,7 +220,7 @@ function Card() {
       {renderSmartphones()}
       {renderPanier()}
     </>
-  );
-} /// fin de la function Card
+  )}
+/// fin de la function Card
 export default Card;
 

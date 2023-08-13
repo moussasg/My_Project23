@@ -3,13 +3,14 @@ import classes from "./index.module.css";
 import { Link } from "react-router-dom";
 import { MesSmartphones } from "../constant/toutemarque";
 import Logout from "../views/logout";
+import Personalilogout from "../components/matui/personalislog"
 function Nproducts() {
   return (
     <div>
         <>
         <h1>All Our Brands</h1>
           <div className={classes.deconex}>
-         <Logout/>
+         <Personalilogout/>
           </div>
           <div className={classes.container}>
             {MesSmartphones.map((el, i) => (

@@ -10,6 +10,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.post('/signup', authController.signup_post);
 app.post('/login', authController.login_post);
+app.post('/MesSmartphones/:id', authController.commands_post)
 app.get('/users', authController.users_get); // get all users
 app.get('/user', authController.user_get); // get spécifique user
 app.get('/logout', (req, res) => {
@@ -41,6 +42,7 @@ app.use((req, res, next) => {
   next();
 });
 // Database connection
+/*
 const dbURI = 'mongodb+srv://myjwt:gHr0wZK7kdwwCG71@cluster0.iejtzdc.mongodb.net/jwt?retryWrites=true&w=majority';
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -49,7 +51,15 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .catch((err) => {
     console.error(err);
   });
-  /////    const dbcom = 'mongodb+srv://mycomands:HObSfEfaovE11CSb@cluster0.hm0gov7.mongodb.net/com?retryWrites=true&w=majority';
+  */
+const dbcom = 'mongodb+srv://mycomands:HObSfEfaovE11CSb@cluster0.hm0gov7.mongodb.net/com?retryWrites=true&w=majority';
+mongoose.connect(dbcom, {useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connexion réussie à la base de données mycommands');
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 app.listen(3002 , () => {
   console.log('connexced to server at 3002')
 })
