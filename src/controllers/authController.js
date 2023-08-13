@@ -117,11 +117,11 @@ const user_get = async (req, res) => { // get spécifique user
   }
 }
 const commands_post = async (req,res) => {
-  const {prenom , adress , numero , prix, quantité , marque} = req.body;
+  const {prenom , adress , numero , prix, quantité , marque , nom} = req.body;
   try {
-    const command = await Command.create({prenom,adress,numero,quantité,prix,marque})
+    const command = await Command.create({prenom,adress,numero,quantité,marque, nom , prix})
     console.log(command)
-    res.status(200).json({ success: true , prenom:command.prenom ,adress:command.adress, numero:command.numero, quantité:command.quantité, prix:command.prix , marque:command.marque});
+    res.status(200).json({ success: true , prenom:command.prenom ,adress:command.adress, numero:command.numero, quantité:command.quantité,marque:command.marque ,nom:command.nom , prix:command.prix});
   }
   catch(err) {
     res.status(400).json({ success: false });

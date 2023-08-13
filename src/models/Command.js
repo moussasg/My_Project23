@@ -5,7 +5,8 @@ const commands = new mongoose.Schema({
     numero:{type:Number}, // 
     quantité:{type:Number},
     prix:{type:Number},
-    marque:{type:String}
+    marque:{type:String},
+    nom:{type:String}
   })
   var Command = mongoose.model('Command', commands)
   module.exports = Command

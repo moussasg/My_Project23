@@ -41,8 +41,6 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Credentials', true);
   next();
 });
-// Database connection
-/*
 const dbURI = 'mongodb+srv://myjwt:gHr0wZK7kdwwCG71@cluster0.iejtzdc.mongodb.net/jwt?retryWrites=true&w=majority';
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -51,7 +49,6 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .catch((err) => {
     console.error(err);
   });
-  */
 const dbcom = 'mongodb+srv://mycomands:HObSfEfaovE11CSb@cluster0.hm0gov7.mongodb.net/com?retryWrites=true&w=majority';
 mongoose.connect(dbcom, {useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {

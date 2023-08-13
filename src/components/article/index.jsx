@@ -58,8 +58,8 @@ function Card() {
       updatedQuantité[produit] --; // updatedQuantité[produit] = -1 
     } else { // updatedQuantité[produit] < 1
       updatedQuantité[produit] = 1;
-    } // ila kane = 1 khelih kima rah matzidche tna9asse
-  return {updatedQuantité , marque: xi.marque}
+    } // ila kane = 1 khelih kima rah matzidche tna9asses
+  return {updatedQuantité , marque: xi.marque , nom :xi.nom}
   };
   // pour scroler vers prix total , j'ai définie h3 ref={ref}
   /////
@@ -156,7 +156,7 @@ function Card() {
     } else { // updatedQuantité[xi.nom] < 1
       updatedQuantité[xi.nom] = 1;
     } // ila kane = 1 khelih kima rah matzidche tna9asse
-  return {updatedQuantité , marque: xi.marque}
+  return {updatedQuantité , marque: xi.marque , nom :xi.nom}
   }
   const renderPanier = () => { // ndiroha f dernier return
     return (
@@ -173,7 +173,7 @@ function Card() {
               {xi.marque} {xi.nom} - Quantité: {quantité[xi.nom] || 1} - Prix: {xi.prix * (quantité[xi.nom] || 1)} - 
         <div onClick={()=>handeldelete(xi)}> <Delbut/>  </div>  
       <div className={classes.acheté}>
-      {showcomp ? <Formcomands quantité={xi.quantité} prix={xi.prix} marque={xi.marque}/> : <button onClick={()=>confirma(xi)}>Acheté</button>}
+      {showcomp ? <Formcomands quantité={xi.quantité} prix={xi.prix} marque={xi.marque} nom={xi.nom} /> : <button onClick={()=>confirma(xi)}>Acheté</button>}
       </div>
       </div>
               {/*xi psq j'ai mapé avec xi*/}

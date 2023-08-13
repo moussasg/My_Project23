@@ -14,10 +14,10 @@ export default function formcomands(props) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-        const response = await axios.post('http://localhost:3002/MesSmartphones/:id', {prenom,adress,numero, prix:props.prix, quantité:props.quantité, marque:props.marque} );
+        const response = await axios.post('http://localhost:3002/MesSmartphones/:id', {prenom,adress,numero, prix:props.prix, quantité:props.quantité, marque:props.marque , nom:props.nom} );
         console.log(response.data)
         if (response.data.success===true) { // il faut déclaré success dans le backedn f la réponse li trécupiriha
-            console.log('votre commande est en cours de traitement' )
+            confirm('votre commande est en cours de traitement merci de choisi Dz Smartphones' )
         }
         } catch (error) { 
             console.error('Response data:', error.response?.data);}
