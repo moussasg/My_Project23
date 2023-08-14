@@ -9,7 +9,6 @@ import Pan from "./pan.jpeg"
 import Ajoutpan from "../matui/ajoutpa"
 import Addicon from "../matui/addicon";
 import Logout from "../../views/logout";
-import Logoutui from "../matui/logout"
 import Delbut from "../matui/delbuton.jsx"
 function Card() {
   const { id } = useParams();
@@ -192,7 +191,7 @@ function Card() {
                   <Logout/>
                   </div>
       <div className={classes.filtre}>
-        <Link to='/products'> <Logoutui/> All Products</Link> 
+        <Link to='/products'>  All Products</Link> 
         <br/>
     <br/>
          <h3>{FindId.buttonText}</h3>

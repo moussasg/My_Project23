@@ -8,5 +8,5 @@ const commands = new mongoose.Schema({
     marque:{type:String},
     nom:{type:String}
   })
-  var Command = mongoose.model('Command', commands)
+  const Command = mongoose.model('Command', commands)
   module.exports = Command

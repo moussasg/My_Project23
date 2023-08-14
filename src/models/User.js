@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
     }
     throw Error('incorrect email');
   };
-var User = mongoose.model('user', userSchema)
+const User = mongoose.model('user', userSchema)
 module.exports = User
 
 

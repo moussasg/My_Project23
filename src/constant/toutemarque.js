@@ -9,6 +9,8 @@ import treize from "./../assets/13.jpeg"
 import qautorze from "./../assets/14.jpg"
 import ultra from "./../assets/s21.jpeg"
 import ultra2 from "./../assets/S22.jpeg"
+import dixa from "../assets/dix10.png"
+import renosept from "../assets/reno7.jpg"
 export const MesSmartphones = [
     { //////////////
       id: "1",
@@ -35,10 +37,10 @@ export const MesSmartphones = [
           Ajouté:"Ajouté au panier",
         },
         {
-          imgp:neufa,
-          nom:"9a" ,
+          imgp:dixa,
+          nom:"10a" ,
           caractér: "caractéristique : Ram : 2gb" ,
-          prix : 22000,
+          prix : 24000,
           ram : "2gb",
           gb:"32gb",
           Ajouté:"Ajouté au panier",
@@ -111,9 +113,12 @@ export const MesSmartphones = [
           imgp: huita,
           Ajouté:"Ajouté au panier",
 
-        },
+        }, // renosept
         {
           imgp: huita,
+          Ajouté:"Ajouté au panier",
+        },{
+          imgp: renosept,
           Ajouté:"Ajouté au panier",
         }
       ]

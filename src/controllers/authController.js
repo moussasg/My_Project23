@@ -1,7 +1,7 @@
 const User = require('../models/User');//on l'utilise en createToken
 const jwt = require('jsonwebtoken');//jsonwebtoken structure de données dans les échange de données entre 2 entité ou ya ادعاءات/ pour structuré / library used in Node.js to generate and verify JWTs for implementing authentication and authorization mechanisms.
 const bcrypt = require('bcrypt')
-const Command = require('../models/Command')
+const Command = require('../models/commands')
 ////2) Authcontroller : comunique avec mongoose / modules or classes for handling authentication-routes logic and endpoints. for signup+signin et export les
 // handle errors
 const requireAuth = (req, res, next) => {

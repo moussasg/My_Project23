@@ -10,6 +10,7 @@
   }
   .logout {
 display: flex;
+justify-content: center;
   }
   .acheté {
     display: flex;
