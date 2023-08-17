@@ -33,11 +33,11 @@ const userSchema = new mongoose.Schema({ //
     }
     throw Error('incorrect email');
   };
-const User = mongoose.model('user', userSchema)//user = collection
+const User = mongoose.model('users', userSchema)//users=collectoin dans dbatlas
 module.exports = User
-  const dbURI2 = 'mongodb+srv://myjwt:fVwnW0b46LnqEC9n@cluster0.iejtzdc.mongodb.net/users?retryWrites=true&w=majority';
-    const y = mongoose.connect(dbURI2, { useNewUrlParser: true, useUnifiedTopology: true , bufferCommands: true,})
-.then(() => {
+const dbURI2 = 'mongodb+srv://myjwt:fVwnW0b46LnqEC9n@cluster0.iejtzdc.mongodb.net/users?retryWrites=true&w=majority'; // users = collection
+const y = mongoose.connect(dbURI2, { useNewUrlParser: true, useUnifiedTopology: true , bufferCommands: true,})
+.then(() => { /// je peut faire ici connect aprés les autre collection createconnection
   console.log('Connected to userauth');
 })
 .catch(() => {
