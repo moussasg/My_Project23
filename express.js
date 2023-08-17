@@ -41,6 +41,14 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Credentials', true);
   next();
 });
+const dbURI = 'mongodb+srv://myjwt:fVwnW0b46LnqEC9n@cluster0.iejtzdc.mongodb.net/users?retryWrites=true&w=majority';//// users = NOM DE database su atlas
+mongoose.connect( dbURI , { useNewUrlParser: true, useUnifiedTopology: true})
+.then(() => { /// je peut faire ici connect aprés les autre collection createconnection
+  console.log('Connected to userauth and commands');  
+})
+.catch(() => {
+  console.error('erreur userauth');
+})
 app.listen(3002 , ()=> {
   console.log('3002 port')
 })

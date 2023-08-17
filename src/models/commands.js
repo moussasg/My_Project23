@@ -8,14 +8,7 @@ const Usercommands = new mongoose.Schema({
     marque:{type:String},
     nom:{type:String},
   }) // quand tu crée ici collection sa crée automatuqement dans dbatlas avec une base de donnée par défault nomé 
-  const Command = mongoose.model('commands', Usercommands) // commands = collection dans dbatlas
+  const Command = mongoose.model('command', Usercommands) // commands = collection dans dbatlas
   module.exports = Command
-  const dbURI = 'mongodb+srv://myjwt:fVwnW0b46LnqEC9n@cluster0.iejtzdc.mongodb.net/commands?retryWrites=true&w=majority';//// commands = collection
-   const x = mongoose.createConnection(dbURI, { useNewUrlParser: true, useUnifiedTopology: true , bufferCommands: true})
-   x.on('connected', () => {
-    console.log('Connected to commands');
-  });
-  x.on('error', (error) => {
-    console.error('Connection error:', error);
-  });
+
   
