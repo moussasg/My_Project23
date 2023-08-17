@@ -18,6 +18,7 @@ export default function formcomands(props) {
         console.log(response.data)
         if (response.data.success===true) { // il faut déclaré success dans le backedn f la réponse li trécupiriha
             confirm('votre commande est en cours de traitement merci de choisi Dz Smartphones' )
+            
         }
         } catch (error) { 
             console.error('Response data:', error.response?.data);}

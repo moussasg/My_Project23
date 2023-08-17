@@ -1,8 +1,9 @@
+
 const { isEmail } = require('validator'); // isEmail = function used to validate whether a given string is a valid email address.
 // The validator = 'library 'is  used in Node.js for data validation various types of data : number , string , url
 const bcrypt = require('bcrypt'); // library in the Node.js for hashing passwords securely.
 const mongoose = require('mongoose')
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({ //
     email: {
       type: String,
       required: [true, 'Please enter an email'],
@@ -18,7 +19,7 @@ const userSchema = new mongoose.Schema({
   });
   userSchema.pre('save', async function(next) {
     const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(this.password, salt);
+    this.password = await bcrypt.hash(this.password , salt);
     next();
   });
   userSchema.statics.login = async function(email, password) {
@@ -32,8 +33,14 @@ const userSchema = new mongoose.Schema({
     }
     throw Error('incorrect email');
   };
-const User = mongoose.model('user', userSchema)
+const User = mongoose.model('user', userSchema)//user = collection
 module.exports = User
+  const dbURI2 = 'mongodb+srv://myjwt:fVwnW0b46LnqEC9n@cluster0.iejtzdc.mongodb.net/users?retryWrites=true&w=majority';
+    const y = mongoose.connect(dbURI2, { useNewUrlParser: true, useUnifiedTopology: true , bufferCommands: true,})
+.then(() => {
+  console.log('Connected to userauth');
+})
+.catch(() => {
+  console.error('erreur userauth');
+})
 
-
- 
