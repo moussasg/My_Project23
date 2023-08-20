@@ -5,8 +5,7 @@ const Logout = () => {
   const navigate = useNavigate()
   const handleLogout = async () => {
     try {
-      // Effectuer une requête GET au backend pour la déconnexion
-      await axios.get('http://localhost:3002/logout'); // Assurez-vous que l'URL correspond à la route de déconnexion de votre backend ('/logout')
+      localStorage.removeItem('jwt');
       console.log('success logout')
       // Rediriger vers la page de connexion ou toute autre page appropriée après la déconnexion
       navigate('/login'); // Remplacez '/login' par l'URL de la page de connexion

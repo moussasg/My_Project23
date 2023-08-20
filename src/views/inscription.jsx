@@ -3,8 +3,10 @@ import axios from 'axios';
 import logsi from "../assets/logsi.png"
 import { useNavigate } from 'react-router-dom';
 import classe from "./ins.module.css"
+import { useAuth } from '../autcontex';
 function UserForm() {
   const navigate = useNavigate()
+  const { setUserToken } = useAuth(); // Destructure setUserToken from AuthContext
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleChange = (event) => {
@@ -18,7 +20,10 @@ function UserForm() {
     const response = await axios.post('http://localhost:3002/signup', {email,password});
     console.log(response)
     if (response.data.success===true) { // il faut déclaré success dans le backedn f la réponse li trécupiriha
-        navigate('/login')
+      const token = response.data.token; // 'jwt' le clé de stockage
+      localStorage.setItem('jwt',token); // Save the token in localStorage
+      setUserToken(token);
+      navigate('/login')
     }
     } catch (error) { 
         console.error('Response data:', error.response?.data);    }

@@ -1,4 +1,5 @@
 const express = require('express');
+const {requireAuth} = require('./src/controllers/authController')
 const app = express(); // Add parentheses to call the express function
 const mongoose = require('mongoose');
 const authController = require('./src/controllers/authController')
@@ -13,18 +14,10 @@ app.post('/login', authController.login_post);
 app.post('/MesSmartphones/:id', authController.commands_post)
 app.get('/users', authController.users_get); // get all users
 app.get('/user', authController.user_get); // get spécifique user
-app.get('/logout', (req, res) => {
-  // Clear the JWT cookie and perform any other necessary logout logic
-  res.clearCookie('jwt');
-  // Additional logout logic if needed
-  // Send a response indicating successful logout
-  res.status(200).json({ message: 'Logout successful' });
-});
 /*
 app.get('/logout', authController.requireAuth, (req, res) => {
   res.render('logout');
 });
-app.get('/products', requireAuth, (req, res) => res.render('products'));
 */
 // Route '/logout' - GET route for user logout
 /*

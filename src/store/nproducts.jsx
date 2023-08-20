@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classes from "./index.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MesSmartphones } from "../constant/toutemarque";
 import Logout from "../views/logout";
+import { useAuth } from "../autcontex";
 function Nproducts() {
+  const navigate = useNavigate()
+  const { userToken } = useAuth()
+  useEffect(()=> {
+  if (!userToken) {
+    // Si l'utilisateur n'est pas authentifié, redirigez-le vers la page de connexion
+    navigate('/login')
+  } }, []);
   return (
     <div>
         <>

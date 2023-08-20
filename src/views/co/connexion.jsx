@@ -3,7 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import classes from "./index.module.css"
 import logsi from "../../assets/logsi.png"
+import { useAuth } from '../../autcontex';
 function Login() {
+  const { setUserToken } = useAuth(); // Destructure setUserToken from AuthContext
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,6 +14,9 @@ function Login() {
     try {
       const response = await axios.post('http://localhost:3002/login', { email, password });
       if (response.data.success === true) {
+        const token = response.data.token; // 'jwt' le clé de stockage
+        localStorage.setItem('jwt',token); // Save the token in localStorage
+        setUserToken(token);
       navigate('/products'); // Call handleLogin after successful login
       }
     } catch (err) {

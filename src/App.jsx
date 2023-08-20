@@ -1,9 +1,10 @@
-import React , { useState } from 'react'; // useEffect hook du gestion d'effect dans react 
+import React , { useEffect, useState } from 'react'; // useEffect hook du gestion d'effect dans react 
 //useEffect( callback , [dependencies] );
 // callback : fonction:  bloc de code réutilisable  exécutée 'après chaque rendu' du composant.
 // dependencies : [tableau] contenant 'les valeurs qui déterminent si l'effet' doit être exécuté à nouveau. Si une valeur dans le tableau change entre les rendus, l'effet sera déclenché à nouveau. Si dependencies est vide, 
 //l'effet sera exécuté une seule fois après le premier rendu. ya plusieurs utilisations
 import './App.css'
+import { AuthProvider, useAuth } from './autcontex.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Gite from "../src/assets/github.png"
 import In from "./assets/in.png"
@@ -25,6 +26,14 @@ import Darker from './components/matui/darker';
 import { Routes  , Route , Link } from 'react-router-dom';
 import Logout from "./views/logout"
 function App() {
+  const { setUserToken } = useAuth(); // Utilisez le hook pour accéder au contexte
+  useEffect(() => {
+    const storedToken = localStorage.getItem('jwt'); // Obtenir le token du localStorage
+    if (storedToken) {
+      // Mettre à jour le token dans le contexte s'il existe dans le localStorage
+      setUserToken(storedToken);
+    }
+  }, []);
   const darkModeStyles = { // on introduit aprés le return on passant par prop
     backgroundColor: '#333',
     color: '#fff',
@@ -40,8 +49,9 @@ function App() {
     setDarkMode(!darkMode)  // tweli true
   }
     return (  // darkMode tkone false
-    <>
-  <div className="App" style={darkMode ? darkModeStyles  : normalStyles}> {/*if darkMode true =>darkModeStyles else normalStyles */} 
+<AuthProvider>
+  <>
+    <div className="App" style={darkMode ? darkModeStyles  : normalStyles}> {/*if darkMode true =>darkModeStyles else normalStyles */} 
         <div className="container"> {/*bootstrap  */}
         <div className="row">{/*bootstrap  */}
           <div className="col-md-12">
@@ -85,6 +95,7 @@ function App() {
       </div> <br/>
      <h5> © 2023 | Souag Moussa </h5>
      </>
+     </AuthProvider>
   )
 }
 export default App
